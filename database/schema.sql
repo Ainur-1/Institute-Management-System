@@ -22,6 +22,12 @@ CREATE TABLE Students (
 	FOREIGN KEY (group_id) REFERENCES Groups(group_id)
 );
 
+CREATE TABLE Teachers (
+	teacher_id INTEGER PRIMARY KEY,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+);
+
 CREATE TABLE Groups (
 	group_id INTEGER PRIMARY KEY,
 	group_name VARCHAR(50),
