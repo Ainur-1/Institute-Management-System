@@ -11,8 +11,8 @@ class ProfileController {
         $this->view = new ProfileView();
     }
 
-    public function displayInformation() {
-        $userData = $this->model->getUserInfo('123');
+    public function displayInformation($username) {
+        $userData = $this->model->getUserInfo($username);
         $this->view->output($userData);
     }
 

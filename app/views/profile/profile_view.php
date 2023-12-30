@@ -1,17 +1,21 @@
 <?php
+
 class ProfileView {
     public function output($userData) {
-        if ($userData) {
-            echo "Имя пользователя: " . $userData['username'] . "<br>"; 
-            echo "Email: " . $userData['email'] . "<br>";
-            echo "Зарегистрировать нового пользователя<br>";
-            echo "Сменить пароль<br>";
-            echo "Редактировать расписание<br>";
+        $output = "";
+
+        if ($userData !== null) {
+            $output .= "Имя пользователя: " . $userData['username'] . "<br>"; 
+            $output .= "Email: " . $userData['email'] . "<br>";
+            $output .= '<a href="../../../resources/pages/register.php">Зарегистрировать нового пользователя</a><br>';
+            $output .= "Сменить пароль<br>";
+            $output .= '<a href="../../../resources/pages/schedule.php">Редактировать расписание</a><br>';
         } else {
-            echo "Пользователь не найден.";
+            $output .= "Пользователь не найден.";
         }
 
+        echo $output;
     }
 }
-?>
 
+?>

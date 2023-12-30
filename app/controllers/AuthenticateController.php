@@ -14,13 +14,18 @@ class AuthenticateController
     }
 
     public function authenticate() {
+        session_start();
+
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
 
             $result = $this->model->authenticateUser($username, $password);
 
-            if ($result == true){
+            if ($result === true) {
+                $_SESSION['logged_in'] = true;
+                $_SESSION['username'] = $username;
+                
                 header("Location: ../profile/index.php");
                 exit;
             } else {
