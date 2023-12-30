@@ -19,7 +19,13 @@ class AuthenticateController
             $password = $_POST['password'];
 
             $result = $this->model->authenticateUser($username, $password);
-            echo $result;
+
+            if ($result == true){
+                header("Location: profile.php");
+                exit;
+            } else {
+                echo $result;
+            }
         } else {
             echo $this->view->output();
         }

@@ -30,7 +30,7 @@ class UserModel {
             $hashed_password = $user['password'];
 
             if (password_verify($password, $hashed_password)) {
-                return "Успешный вход!";
+                return true;
             } else {
                 return "Неправильный пароль!";
             }

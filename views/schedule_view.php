@@ -19,7 +19,7 @@ class ScheduleView {
 
         $output .= '</table>';
         $output .= '</div>';
-        $output .= '<div><button>Редактировать</button></div>';
+        $output .= '<div><button onclick="window.location.href=\'edit_schedule.php\'">Редактировать</button></div>';
 
         return $output;
     }

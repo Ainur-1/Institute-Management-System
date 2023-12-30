@@ -13,9 +13,8 @@
     <header>
         <h1>Institute-Management-System</h1>
         <a href="profile.php">Профиль</a>
-        <a href="edit_schedule.php">Редактировать расписание</a>
         <a href="authenticate.php">Войти</a>
-        <a href="register.php">Зарегистрироваться</a>
+        <a href="register.php">Зарегистрировать студента</a>
         <a href="schedule.php">Расписание</a>
     </header>
     <main>
