@@ -1,6 +1,6 @@
 <?php
-include '../model/UserModel.php';
-include '../view/login_view.php';
+include '../../models/UserModel.php';
+include '../../views/authenticate/login_view.php';
 
 class AuthenticateController
 {
@@ -21,7 +21,7 @@ class AuthenticateController
             $result = $this->model->authenticateUser($username, $password);
 
             if ($result == true){
-                header("Location: profile.php");
+                header("Location: ../profile/index.php");
                 exit;
             } else {
                 echo $result;

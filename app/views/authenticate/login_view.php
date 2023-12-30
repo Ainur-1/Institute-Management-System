@@ -3,6 +3,7 @@ class LoginView {
     public function output() {
         return '
         <form action="" method="post">
+            <h2>Авторизация</h2>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
 

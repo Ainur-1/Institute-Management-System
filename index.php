@@ -1,5 +1,4 @@
 <?php
-// header("Location: pages/edit_schedule.php");
-header("Location: pages/register.php");
+header("Location: app/views/authenticate/index.php");
 exit;
 ?>

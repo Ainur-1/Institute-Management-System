@@ -4,17 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/main.css">
-    <script src="../js/main.js" defer></script>
-    <title>My Website</title>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <script src="../../../assets/js/main.js" defer></script>
+    <title><?php echo $pageTitle?></title>
 </head>
 
 <body>
     <header>
-        <h1>Institute-Management-System</h1>
-        <a href="profile.php">Профиль</a>
-        <a href="authenticate.php">Войти</a>
-        <a href="register.php">Зарегистрировать студента</a>
-        <a href="schedule.php">Расписание</a>
+        <h1 onclick="window.location.href='../../../index.php'">Institute-Management-System</h1>
+        <a href="../profile/index.php">Профиль</a>
+        <a href="../../../resources/pages/schedule.php">Расписание</a>
     </header>
     <main>
