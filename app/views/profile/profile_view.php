@@ -7,9 +7,11 @@ class ProfileView {
         if ($userData !== null) {
             $output .= "Имя пользователя: " . $userData['username'] . "<br>"; 
             $output .= "Email: " . $userData['email'] . "<br>";
-            $output .= '<a href="../../../resources/pages/register.php">Зарегистрировать нового пользователя</a><br>';
             $output .= "Сменить пароль<br>";
-            $output .= '<a href="../../../resources/pages/schedule.php">Редактировать расписание</a><br>';
+            $output .= '<div>
+                    <a href="../newUserRegistration/index.php">Зарегистрировать нового пользователя</a><br>
+                    <a href="../../../resources/pages/schedule.php">Редактировать расписание</a><br>
+                </div>';
         } else {
             $output .= "Пользователь не найден.";
         }
@@ -17,5 +19,4 @@ class ProfileView {
         echo $output;
     }
 }
-
 ?>

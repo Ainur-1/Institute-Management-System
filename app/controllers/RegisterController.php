@@ -1,6 +1,6 @@
 <?php
-include '../model/UserModel.php';
-include '../view/register_view.php';
+include '../../models/UserModel.php';
+include '../../views/newUserRegistration/register_view.php';
 
 class RegisterController {
     private $model;

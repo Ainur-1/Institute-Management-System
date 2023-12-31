@@ -3,6 +3,7 @@ class RegisterView {
     public function output() {
         return '
         <form action="" method="post">
+            <h2>Регистрация</h2>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
     
