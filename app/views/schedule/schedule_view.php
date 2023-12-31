@@ -1,20 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+class ScheduleView {
+    public function output($schedule) {
+        $output = '<div class="schedule-container">';
+        $output .= '<table class="schedule-table">';
+        
+        foreach ($schedule as $day => $lessons) {
+            $output .= '<tr>';
+            $output .= '<th colspan="2">' . $day . '</th>';
+            $output .= '</tr>';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/main.css">
-    <script src="../js/main.js" defer></script>
-    <title>My Website</title>
-</head>
+            foreach ($lessons as $time => $subject) {
+                $output .= '<tr>';
+                $output .= '<td>' . $time . '</td>';
+                $output .= '<td>' . $subject . '</td>';
+                $output .= '</tr>';
+            }
+        }
 
-<body>
-    <?php include '../includes/header.php'; ?>
-    <main>
+        $output .= '</table>';
+        $output .= '</div>';
+
+        return $output;
+    }
+
+    public function output1($schedule) {
+        return '
         <div class="edit-container">
             <h2>Редактирование расписания</h2>
-            <form action="save_schedule.php" method="post">
+            <form action="" method="post">
                 <label for="day">День недели:</label>
                 <select name="day" id="day">
                     <?php foreach ($schedule as $day => $lessons): ?>
@@ -33,8 +46,7 @@
                 <input type="submit" value="Добавить">
             </form>
         </div>
-    </main>
-    <?php include '../includes/footer.php'; ?>
-</body>
-
-</html>
+        ';
+    }
+}
+?>

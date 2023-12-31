@@ -13,6 +13,6 @@
     <header>
         <h1 onclick="window.location.href='../../../index.php'">Institute-Management-System</h1>
         <a href="../profile/index.php">Профиль</a>
-        <a href="../../../resources/pages/schedule.php">Расписание</a>
+        <a href="../schedule/index.php">Расписание</a>
     </header>
     <main>

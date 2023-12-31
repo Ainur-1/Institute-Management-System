@@ -1,6 +1,6 @@
 <?php
-include '../model/ScheduleModel.php';
-include '../view/schedule_view.php';
+include '../../models/ScheduleModel.php';
+include '../../views/schedule/schedule_view.php';
 
 class ScheduleController {
     private $model;
@@ -14,7 +14,11 @@ class ScheduleController {
     public function displaySchedule() {
         $schedule = $this->model->getSchedule();
         echo $this->view->output($schedule);
+    }
 
+    public function displayScheduleEditor() {
+        $schedule = $this->model->getSchedule();
+        echo $this->view->output1($schedule);
     }
 }
 ?>
