@@ -1,4 +1,3 @@
 <?php
-header("Location: app/views/authenticate/index.php");
-exit;
+require "app/views/authenticate/index.php";
 ?>
