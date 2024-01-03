@@ -1,12 +1,12 @@
 <?php
-// $servername = "sql306.yzz.me";
-// $username = "yzzme_35665749";
-// $password = "SzZ9PwpQcRkW";
-// $dbname = "yzzme_35665749_mydatabase";
+$servername = "localhost";
+$username = "root";
+$password = "gooduser";
+$dbname = "ims";
 
-// $conn = new mysqli($servername, $username, $password, $dbname);
+$conn = null //new mysqli($servername, $username, $password, $dbname);
 
-// // if ($conn->connect_error) {
-// //     die("Connection failed: " . $conn->connect_error);
-// // }
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
 ?>

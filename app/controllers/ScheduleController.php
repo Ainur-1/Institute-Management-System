@@ -1,6 +1,6 @@
 <?php
-include '../../models/ScheduleModel.php';
-include '../../views/schedule/schedule_view.php';
+include 'app/models/ScheduleModel.php';
+include 'app/views/schedule/schedule_view.php';
 
 class ScheduleController {
     private $model;

@@ -1,6 +1,6 @@
 <?php
-include '../../models/UserModel.php';
-include '../../views/authenticate/login_view.php';
+include 'app/models/UserModel.php';
+include 'app/views/authenticate/login_view.php';
 
 class AuthenticateController
 {

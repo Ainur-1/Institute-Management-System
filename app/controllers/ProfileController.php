@@ -1,6 +1,6 @@
 <?php
-include "../../models/ProfileModel.php";
-include "../../views/profile/profile_view.php";
+include "app/models/ProfileModel.php";
+include "app/views/profile/profile_view.php";
 
 class ProfileController {
     private $view;
