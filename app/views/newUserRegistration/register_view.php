@@ -4,45 +4,29 @@ class RegisterView {
         return '
         <form action="" method="post">
             <h2>Регистрация</h2>
-            <label for="username">Логин:</label>
-            <input type="text" id="username" name="username" required>
-    
+            <label for="login">Логин:</label>
+            <input type="text" id="login" name="login" required><br>
+
             <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password" required>
-    
+            <input type="password" id="password" name="password" required><br>
+
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required><br>
 
-            <label for="role">Роль:</label>
-            <select id="role" name="role" required onchange="showGroupField(this.value)">
-                <option value="Студент">Студент</option>
-                <option value="Преподаватель">Преподаватель</option>
-            </select>
+            <label for="first_name">Имя:</label>
+            <input type="text" id="first_name" name="first_name" required><br>
 
-            <div id="groupField" style="display:none;">
-                <label for="group">Группа:</label>
-                <input type="text" id="group" name="group">
-            </div>
+            <label for="last_name">Фамилия:</label>
+            <input type="text" id="last_name" name="last_name" required><br>
 
-            <label for="firstName">Имя:</label>
-            <input type="text" id="firstName" name="firstName" required>
-
-            <label for="lastName">Фамилия:</label>
-            <input type="text" id="lastName" name="lastName" required>
+            <label for="user_type">Тип пользователя:</label>
+            <select id="user_type" name="user_type" required>
+                <option value="student">Студент</option>
+                <option value="teacher">Преподаватель</option>
+            </select><br>
     
-            <input type="submit" name="register" value="Зарегистрировать">
+            <input type="submit" value="Зарегистрировать пользователя">
         </form>
-
-        <script>
-            function showGroupField(roleValue) {
-                const groupField = document.getElementById("groupField");
-                if (roleValue === "Студент") {
-                    groupField.style.display = "block";
-                } else {
-                    groupField.style.display = "none";
-                }
-            }
-        </script>
         ';
     }
 }

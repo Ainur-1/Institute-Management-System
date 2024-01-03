@@ -12,12 +12,15 @@ class RegisterController {
     }
 
     public function register() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $email = $_POST['email'];
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $login = $_POST["login"];
+            $password = password_hash($_POST["password"], PASSWORD_DEFAULT); 
+            $email = $_POST["email"];
+            $first_name = $_POST["first_name"];
+            $last_name = $_POST["last_name"];
+            $user_type = $_POST["user_type"];
 
-            $this->model->registerUser($username, $password, $email);
+            $this->model->registerUser($login, $password, $email, $first_name, $last_name, $user_type);
             echo "User registered successfully!";
         } else {
             echo $this->view->output();

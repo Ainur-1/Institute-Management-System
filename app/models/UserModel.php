@@ -7,22 +7,21 @@ class UserModel {
         $this->conn = $conn;
     }
 
-    public function registerUser($username, $password, $email){
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (username, password, email) VALUES ('$username', '$hashedPassword', '$email')";
+    public function registerUser($login, $password, $email, $first_name, $last_name, $user_type){
+        $sql = "INSERT INTO Users (login, password, email, first_name, last_name, user_type) 
+                VALUES ('$login', '$password', '$email', '$first_name', '$last_name', '$user_type')";
 
         if ($this->conn->query($sql) === TRUE) {
             return true;
         } else {
             return false;
         }
-
     }
 
     public function authenticateUser($username, $password) {
         $username = mysqli_real_escape_string($this->conn, $username);
 
-        $sql = "SELECT * FROM users WHERE username='$username'";
+        $sql = "SELECT * FROM Users WHERE login='$username'";
         $result = $this->conn->query($sql);
 
         if ($result->num_rows > 0) {
