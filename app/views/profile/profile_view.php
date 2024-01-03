@@ -10,6 +10,7 @@ class ProfileView {
             $output .= "Сменить пароль<br>";
             $output .= '<div>
                     <a href="../newUserRegistration/index.php">Зарегистрировать нового пользователя</a><br>
+                    <a href="../usersList/usersList.php">Cписок пользователей</a><br>
                     <a href="../editSchedule/index.php">Редактировать расписание</a><br>
                 </div>';
         } else {
