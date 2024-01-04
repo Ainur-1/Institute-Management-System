@@ -22,7 +22,7 @@ class UserModel {
     public function authenticateUser($username, $password) {
         $username = mysqli_real_escape_string($this->conn, $username);
 
-        $sql = "SELECT * FROM users WHERE username='$username'";
+        $sql = "SELECT * FROM Users WHERE email='$username'";
         $result = $this->conn->query($sql);
 
         if ($result->num_rows > 0) {

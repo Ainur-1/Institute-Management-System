@@ -7,7 +7,7 @@ class ProfileModel {
     }
 
     public function getUserInfo($username) {
-        $sql = "SELECT * FROM users WHERE username='$username'";
+        $sql = "SELECT * FROM Users WHERE email='$username'";
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             return $result->fetch_assoc();
