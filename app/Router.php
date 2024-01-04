@@ -3,25 +3,46 @@ class Router {
     public function route() {
         $uri = $_SERVER['REQUEST_URI'];
 
+        include "db_config.php";
+        include 'app/controllers/AuthenticateController.php';
+        include 'app/controllers/ProfileController.php';
+        include 'app/controllers/RegisterController.php';
+        include 'app/controllers/ScheduleController.php';
+        include 'app/controllers/TasksController.php';
+        
         switch ($uri) {
             case '/':
-                require 'app/views/authenticate/index.php';
+                $controller = new AuthenticateController($conn);
+                $controller->index();
                 break;
+
             case '/profile':
-                require 'app/views/profile/index.php';
+                $controller = new ProfileController($conn);
+                $controller->index();
                 break;
+
             case '/schedule':
-                require 'app/views/schedule/index.php';
+                $page = 'schedule';
+                $controller = new ScheduleController($conn);
+                $controller->index($page);
                 break;
+
             case '/tasks':
-                require 'app/views/tasks/index.php';
+                $controller = new TasksController($conn);
+                $controller->index();
                 break;
+
             case '/newUserRegistration':
-                require 'app/views/newUserRegistration/index.php';
+                $controller = new RegisterController($conn);
+                $controller->index();
                 break;
+
             case '/editSchedule':
-                require 'app/views/editSchedule/index.php';
+                $page = 'editSchedule';
+                $controller = new ScheduleController($conn);
+                $controller->index($page);
                 break;
+
             default:
                 // Ошибка 404
                 header('HTTP/1.0 404 Not Found');

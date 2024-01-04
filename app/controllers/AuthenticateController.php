@@ -1,6 +1,6 @@
 <?php
-include 'app/models/UserModel.php';
-include 'app/views/authenticate/login_view.php';
+include_once 'app/models/UserModel.php';
+include_once 'app/views/LoginView.php';
 
 class AuthenticateController
 {
@@ -14,7 +14,12 @@ class AuthenticateController
     }
 
     public function index () {
-        include 'app/views/authenticate/login_view.php';
+        $pageTitle = "Авторизация";
+        include 'resources/includes/header.php';
+
+        $this->authenticate();
+
+        include 'resources/includes/footer.php';
     }
     public function authenticate() {
         session_start();

@@ -1,6 +1,6 @@
 <?php
-include 'app/models/ScheduleModel.php';
-include 'app/views/schedule/schedule_view.php';
+include_once 'app/models/ScheduleModel.php';
+include_once 'app/views/ScheduleView.php';
 
 class ScheduleController {
     private $model;
@@ -9,6 +9,22 @@ class ScheduleController {
     public function __construct($conn) {
         $this->model = new ScheduleModel($conn);
         $this->view = new ScheduleView();
+    }
+
+    public function index($page) {
+        $pageTitle = "Расписание занятий";
+        include 'resources/includes/header.php';
+
+        switch ($page) {
+            case 'schedule':
+                $this->displaySchedule();
+                break;
+            case 'editSchedule':
+                $this->displayScheduleEditor();
+                break;    
+        }
+
+        include 'resources/includes/footer.php';
     }
 
     public function displaySchedule() {

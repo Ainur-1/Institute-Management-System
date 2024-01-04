@@ -1,6 +1,6 @@
 <?php
-include 'app/models/UserModel.php';
-include 'app/views/newUserRegistration/register_view.php';
+include_once 'app/models/UserModel.php';
+include_once 'app/views/RegisterView.php';
 
 class RegisterController {
     private $model;
@@ -11,6 +11,21 @@ class RegisterController {
         $this->view = new RegisterView();
     }
 
+    public function index() {
+        session_start();
+
+        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+            header("Location: /");
+            exit;
+        }
+
+        $pageTitle = "Регистрация нового пользователя";
+        include 'resources/includes/header.php';
+
+        $this->register();
+
+        include 'resources/includes/footer.php';
+    }
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'];
