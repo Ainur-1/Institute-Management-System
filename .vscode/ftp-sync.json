@@ -21,7 +21,9 @@
         "\\database",
         "\\README.md",
         "\\What to do next.txt",
-        "\\.gitattributes"
+        "\\.gitattributes",
+        "\\migrations"
+
     ],
     "generatedFiles": {
         "extensionsToInclude": [
