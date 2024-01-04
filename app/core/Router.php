@@ -3,44 +3,46 @@ class Router {
     public function route() {
         $uri = $_SERVER['REQUEST_URI'];
 
-        include "db_config.php";
         include 'app/controllers/AuthenticateController.php';
         include 'app/controllers/ProfileController.php';
         include 'app/controllers/RegisterController.php';
         include 'app/controllers/ScheduleController.php';
         include 'app/controllers/TasksController.php';
+        include "app/core/Database.php";
         include 'app/User.php';
+
+        $db = new Database();
         
         switch ($uri) {
             case '/':
-                $controller = new AuthenticateController($conn);
+                $controller = new AuthenticateController($db->conn);
                 $controller->index();
                 break;
 
             case '/profile':
-                $controller = new ProfileController($conn);
+                $controller = new ProfileController($db->conn);
                 $controller->index();
                 break;
 
             case '/schedule':
                 $page = 'schedule';
-                $controller = new ScheduleController($conn);
+                $controller = new ScheduleController($db->conn);
                 $controller->index($page);
                 break;
 
             case '/tasks':
-                $controller = new TasksController($conn);
+                $controller = new TasksController($db->conn);
                 $controller->index();
                 break;
 
             case '/newUserRegistration':
-                $controller = new RegisterController($conn);
+                $controller = new RegisterController($db->conn);
                 $controller->index();
                 break;
 
             case '/editSchedule':
                 $page = 'editSchedule';
-                $controller = new ScheduleController($conn);
+                $controller = new ScheduleController($db->conn);
                 $controller->index($page);
                 break;
 
