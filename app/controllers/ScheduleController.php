@@ -18,7 +18,7 @@ class ScheduleController {
 
     public function displayScheduleEditor() {
         $schedule = $this->model->getSchedule();
-        echo $this->view->output1($schedule);
+        echo $this->view->output2($schedule);
     }
 }
 ?>
