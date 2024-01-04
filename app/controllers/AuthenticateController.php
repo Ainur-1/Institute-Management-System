@@ -13,6 +13,9 @@ class AuthenticateController
         $this->view = new LoginView();
     }
 
+    public function index () {
+        include 'app/views/authenticate/login_view.php';
+    }
     public function authenticate() {
         session_start();
 
@@ -26,7 +29,7 @@ class AuthenticateController
                 $_SESSION['logged_in'] = true;
                 $_SESSION['username'] = $username;
                 
-                header("Location: ../profile/index.php");
+                header("Location: /profile");
                 exit;
             } else {
                 echo $result;

@@ -9,8 +9,8 @@ class ProfileView {
             $output .= "Email: " . $userData['email'] . "<br>";
             $output .= "Сменить пароль<br>";
             $output .= '<div>
-                    <a href="../newUserRegistration/index.php">Зарегистрировать нового пользователя</a><br>
-                    <a href="../editSchedule/index.php">Редактировать расписание</a><br>
+                    <a href="/newUserRegistration">Зарегистрировать нового пользователя</a><br>
+                    <a href="/editSchedule">Редактировать расписание</a><br>
                 </div>';
         } else {
             $output .= "Пользователь не найден.";

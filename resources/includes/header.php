@@ -11,9 +11,9 @@
 
 <body>
     <header>
-        <h1 onclick="window.location.href='index.php'">Institute-Management-System</h1>
-        <a href="../profile/index.php">Профиль</a>
-        <a href="../schedule/index.php">Расписание</a>
-        <a href="../tasks/index.php">Задачи</a>
+        <h1 onclick="window.location.href='/'">Institute-Management-System</h1>
+        <a href="/profile">Профиль</a>
+        <a href="/schedule">Расписание</a>
+        <a href="/tasks">Задачи</a>
     </header>
     <main>
