@@ -9,6 +9,7 @@ class Router {
         include 'app/controllers/RegisterController.php';
         include 'app/controllers/ScheduleController.php';
         include 'app/controllers/TasksController.php';
+        include 'app/User.php';
         
         switch ($uri) {
             case '/':

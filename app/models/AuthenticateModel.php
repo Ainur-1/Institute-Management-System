@@ -1,10 +1,12 @@
 <?php
-class UserModel {
+class AuthenticateModel {
 
     private $conn;
+    private $user;
 
     public function __construct($conn) {
         $this->conn = $conn;
+        $this->user = new User($this->conn);
     }
 
     public function registerUser($username, $password, $email){
@@ -20,13 +22,9 @@ class UserModel {
     }
 
     public function authenticateUser($username, $password) {
-        $username = mysqli_real_escape_string($this->conn, $username);
+        $user = $this->user->getUserByEmail($username);
 
-        $sql = "SELECT * FROM Users WHERE email='$username'";
-        $result = $this->conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
+        if ($user) {
             $hashed_password = $user['password'];
 
             if (password_verify($password, $hashed_password)) {
@@ -36,8 +34,7 @@ class UserModel {
             }
         } else {
             return "Пользователь не найден!";
-        }
-        
+        }  
     }
 }
 ?>

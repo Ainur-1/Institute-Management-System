@@ -1,5 +1,5 @@
 <?php
-class LoginView {
+class AuthenticateView {
     public function output() {
         return '
         <form action="" method="post">

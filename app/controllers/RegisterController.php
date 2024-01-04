@@ -1,5 +1,5 @@
 <?php
-include_once 'app/models/UserModel.php';
+include_once 'app/models/AuthenticateModel.php';
 include_once 'app/views/RegisterView.php';
 
 class RegisterController {
@@ -7,7 +7,7 @@ class RegisterController {
     private $view;
 
     public function __construct($db) {
-        $this->model = new UserModel($db);
+        $this->model = new AuthenticateModel($db);
         $this->view = new RegisterView();
     }
 

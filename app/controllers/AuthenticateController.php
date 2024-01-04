@@ -1,6 +1,6 @@
 <?php
-include_once 'app/models/UserModel.php';
-include_once 'app/views/LoginView.php';
+include_once 'app/models/AuthenticateModel.php';
+include_once 'app/views/AuthenticateView.php';
 
 class AuthenticateController
 {
@@ -9,8 +9,8 @@ class AuthenticateController
 
     public function __construct($conn)
     {
-        $this->model = new UserModel($conn);
-        $this->view = new LoginView();
+        $this->model = new AuthenticateModel($conn);
+        $this->view = new AuthenticateView();
     }
 
     public function index () {
