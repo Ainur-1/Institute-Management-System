@@ -3,12 +3,12 @@
 USE ims;
 
 CREATE TABLE IF NOT EXISTS Roles (
-	role_id INTEGER PRIMARY KEY,
+	role_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	role_name VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS Users (
-	user_id INTEGER PRIMARY KEY,
+	user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	email VARCHAR(50),
 	password VARCHAR(100),
 	session_token VARCHAR(100),
@@ -19,13 +19,13 @@ CREATE TABLE IF NOT EXISTS Users (
 );
 
 CREATE TABLE IF NOT EXISTS StudentGroups (
-	group_id INTEGER PRIMARY KEY,
+	group_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	group_name VARCHAR(50),
 	course INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS Students (
-	student_id INTEGER PRIMARY KEY,
+	student_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	first_name VARCHAR(50),
 	last_name VARCHAR(50),
 	group_id INTEGER,
@@ -33,30 +33,38 @@ CREATE TABLE IF NOT EXISTS Students (
 );
 
 CREATE TABLE IF NOT EXISTS Teachers (
-	teacher_id INTEGER PRIMARY KEY,
+	teacher_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	first_name VARCHAR(50),
 	last_name VARCHAR(50)
 );
 
 
 CREATE TABLE IF NOT EXISTS Subjects (
-	subject_id INTEGER PRIMARY KEY,
+	subject_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	subject_name VARCHAR(50)
 );
 
+CREATE TABLE IF NOT EXISTS ClassTimes (
+	class_time_id  INTEGER PRIMARY KEY AUTO_INCREMENT,
+	start_time TIME NOT NULL,
+	end_time TIME NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS Schedule (
-	schedule_id INTEGER PRIMARY KEY,
+	schedule_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	subject_id INTEGER,
 	group_id INTEGER,
+	teacher_id INTEGER,
 	day_of_week INTEGER,
-	start_time TIME,
-	end_time TIME,
+	class_time_id  INTEGER,
 	FOREIGN KEY (subject_id) REFERENCES Subjects(subject_id),
-	FOREIGN KEY (group_id) REFERENCES StudentGroups(group_id)
+	FOREIGN KEY (group_id) REFERENCES StudentGroups(group_id),
+	FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id),
+	FOREIGN KEY (class_time_id) REFERENCES ClassTimes(class_time_id)
 );
 
 CREATE TABLE IF NOT EXISTS Tasks (
-	task_id INTEGER PRIMARY KEY,
+	task_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	task_name VARCHAR(50),
 	task_text VARCHAR(500),
 	task_status VARCHAR(20),

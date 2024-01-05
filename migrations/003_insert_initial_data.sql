@@ -32,9 +32,18 @@ INSERT INTO Subjects (subject_id, subject_name) VALUES
 (3, 'Biology'),
 (4, 'History');
 
-INSERT INTO Schedule (schedule_id, subject_id, group_id, day_of_week, start_time, end_time) VALUES
-(1, 1, 1, 1, '09:00:00', '10:30:00'),
-(2, 2, 2, 2, '11:00:00', '12:30:00');
+INSERT INTO ClassTimes (start_time, end_time) VALUES
+('08:00:00', '09:30:00'),
+('09:45:00', '11:15:00'),
+('11:30:00', '13:00:00'),
+('13:30:00', '15:00:00');
+
+INSERT INTO Schedule (subject_id, group_id, teacher_id, day_of_week, class_time_id) VALUES
+(1, 1, 1, 1, 1),
+(2, 3, 2, 2, 3),
+(3, 1, 2, 3, 1),
+(4, 2, 2, 4, 3),
+(1, 3, 1, 5, 1);
 
 INSERT INTO Tasks (task_id, task_name, task_text, task_status, deadline, task_owner, task_assignee, creation_time, last_updated_time) VALUES
 (1, 'Math Homework', 'Complete exercises 1-5', 'Pending', '2024-01-10 23:59:59', 1, 3, NOW(), NOW()),
