@@ -9,7 +9,7 @@ class Router {
         include 'app/controllers/ScheduleController.php';
         include 'app/controllers/TasksController.php';
         include "app/core/Database.php";
-        include 'app/User.php';
+        include 'app/core/User.php';
 
         $db = new Database();
         
