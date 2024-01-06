@@ -30,12 +30,14 @@ class RegisterController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
-            $email = $_POST['email'];
+            $role_id = $_POST['role'];
+            $first_name = $_POST['firstName']; 
+            $last_name = $_POST['lastName'];
 
-            $this->model->registerUser($username, $password, $email);
-            echo "User registered successfully!";
+            $this->model->registerUser($username, $password, $role_id, $first_name, $last_name);
         } else {
-            echo $this->view->output();
+            $roles = $this->model->selectAllFromTable('Roles');
+            $this->view->output($roles);
         }
     }
 }
