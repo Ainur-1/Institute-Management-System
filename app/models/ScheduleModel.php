@@ -1,9 +1,9 @@
 <?php
-class ScheduleModel {
-    private $conn;
+require_once "app/core/BaseModel.php";
 
+class ScheduleModel extends BaseModel {
     public function __construct($conn) {
-        $this->conn = $conn;
+        parent::__construct($conn);
     }
 
     public function getSchedule() {
@@ -42,25 +42,6 @@ class ScheduleModel {
                 $schedule[] = $row;
             }
             return $schedule;
-        } else {
-            return null;
-        }
-    }
-
-    public function selectAllFromTable($table) {
-        $sql = "SELECT * FROM `" . $table . "`";
-        $result = $this->conn->query($sql);
-
-        if (!$result) {
-            die("Ошибка выполнения запроса: " . $this->conn->error);
-        }
-
-        if ($result->num_rows > 0) {
-            $tableData = [];
-            while ($row = $result->fetch_assoc()) {
-                $tableData[] = $row;
-            }
-            return $tableData;
         } else {
             return null;
         }

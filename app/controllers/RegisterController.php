@@ -1,13 +1,13 @@
 <?php
-include_once 'app/models/AuthenticateModel.php';
+include_once 'app/models/RegisterModel.php';
 include_once 'app/views/RegisterView.php';
 
 class RegisterController {
     private $model;
     private $view;
 
-    public function __construct($db) {
-        $this->model = new AuthenticateModel($db);
+    public function __construct($conn) {
+        $this->model = new RegisterModel($conn);
         $this->view = new RegisterView();
     }
 
@@ -34,7 +34,7 @@ class RegisterController {
             $first_name = $_POST['firstName']; 
             $last_name = $_POST['lastName'];
 
-            $this->model->registerUser($username, $password, $role_id, $first_name, $last_name);
+            echo $this->model->registerUser($username, $password, $role_id, $first_name, $last_name);
         } else {
             $roles = $this->model->selectAllFromTable('Roles');
             $this->view->output($roles);
