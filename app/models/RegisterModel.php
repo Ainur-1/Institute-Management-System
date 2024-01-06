@@ -2,8 +2,6 @@
 require_once "app/core/BaseModel.php";
 
 class RegisterModel  extends BaseModel {
-    private $conn;
-
     public function __construct($conn) {
         parent::__construct($conn);
     }
