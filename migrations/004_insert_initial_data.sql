@@ -17,14 +17,11 @@ INSERT INTO StudentGroups (group_id, group_name, course) VALUES
 (2, 'Group B', 2),
 (3, 'Group C', 1);
 
-INSERT INTO Students (student_id, first_name, last_name, group_id) VALUES
-(1, 'John', 'Doe', 1),
-(2, 'Jane', 'Smith', 2),
-(3, 'Emily', 'Johnson', 3);
+INSERT INTO Students (student_id, user_id, first_name, last_name, group_id) VALUES
+(1, 3, 'John', 'Doe', 1);
 
-INSERT INTO Teachers (teacher_id, first_name, last_name) VALUES
-(1, 'Michael', 'Brown'),
-(2, 'Anna', 'Wilson');
+INSERT INTO Teachers (teacher_id, user_id, first_name, last_name) VALUES
+(1, 2, 'Michael', 'Brown');
 
 INSERT INTO Subjects (subject_id, subject_name) VALUES
 (1, 'Mathematics'),
@@ -40,9 +37,9 @@ INSERT INTO ClassTimes (start_time, end_time) VALUES
 
 INSERT INTO Schedule (subject_id, group_id, teacher_id, day_of_week, class_time_id) VALUES
 (1, 1, 1, 1, 1),
-(2, 3, 2, 2, 3),
-(3, 1, 2, 3, 1),
-(4, 2, 2, 4, 3),
+(2, 3, 1, 2, 3),
+(3, 1, 1, 3, 1),
+(4, 2, 1, 4, 3),
 (1, 3, 1, 5, 1);
 
 INSERT INTO Tasks (task_id, task_name, task_text, task_status, deadline, task_owner, task_assignee, creation_time, last_updated_time) VALUES
