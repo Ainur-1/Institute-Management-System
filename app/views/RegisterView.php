@@ -1,6 +1,6 @@
 <?php
 class RegisterView {
-    public function output($roles) {
+    public function renderRegisterForm($roles) {
         echo '
         <form action="" method="post">
             <h2>Регистрация</h2>

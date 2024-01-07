@@ -40,7 +40,7 @@ class AuthenticateController
                 echo $result;
             }
         } else {
-            echo $this->view->output();
+            echo $this->view->renderAuthForm();
         }
     }
 }

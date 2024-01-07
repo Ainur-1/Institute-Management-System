@@ -31,7 +31,7 @@ class ProfileController {
 
     public function displayInformation($username) {
         $userData = $this->model->getUserInfo($username);
-        $this->view->output($userData);
+        $this->view->renderProfile($userData);
     }
 
 }

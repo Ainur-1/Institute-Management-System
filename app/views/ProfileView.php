@@ -1,7 +1,7 @@
 <?php
 
 class ProfileView {
-    public function output($userData) {
+    public function renderProfile($userData) {
         $output = "";
 
         if ($userData !== null) {

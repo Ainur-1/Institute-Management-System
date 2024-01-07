@@ -37,7 +37,7 @@ class RegisterController {
             echo $this->model->registerUser($username, $password, $role_id, $first_name, $last_name);
         } else {
             $roles = $this->model->selectAllFromTable('Roles');
-            $this->view->output($roles);
+            $this->view->renderRegisterForm($roles);
         }
     }
 }
