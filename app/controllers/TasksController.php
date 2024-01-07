@@ -1,12 +1,13 @@
 <?php
-include_once 'app/controllers/TasksController.php';
+include_once 'app/models/TasksModel.php';
 include_once 'app/views/TasksView.php';
 
 class TasksController {
-
+    private $model;
     private $view;
 
     public function __construct($conn) {
+        $this->model = new TasksModel($conn);
         $this->view = new TasksView();
     }
 
@@ -22,9 +23,17 @@ class TasksController {
 
         include 'resources/includes/header.php';
 
-        $this->view->output();
-        echo $this->view->output();
+        $this->displayTasks();
 
         include 'resources/includes/footer.php';
+    }
+
+    private function displayTasks() {
+        $tasks = $this->model->getTasks();
+        if ($tasks) {
+            $this->view->renderTasks($tasks);
+        } else {
+            $this->view->renderNoTasksMessage();
+        }
     }
 }
