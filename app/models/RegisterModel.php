@@ -6,7 +6,7 @@ class RegisterModel  extends BaseModel {
         parent::__construct($conn);
     }
 
-    public function registerUser($email, $password, $role_id, $first_name, $last_name) {
+    public function registerUser($email, $password, $role_id, $first_name, $last_name, $group_id = null) {
         try {
             $this->conn->begin_transaction();
             
@@ -14,10 +14,16 @@ class RegisterModel  extends BaseModel {
             if(!$user_id){
                 throw new Exception("Ошибка при регистрации пользователя.");
             }
-
-            $this->insertTeacher($user_id);
-            $this->conn->commit();
-            return "Пользователь и преподаватель успешно зарегистрированы.";
+            if ($role_id == 2) {
+                $this->insertTeacher($user_id);
+                $this->conn->commit();
+                return "Преподаватель успешно зарегистрирован.";
+            }
+            if ($role_id == 3) {
+                $this->insertStudents($user_id, $group_id);
+                $this->conn->commit();
+                return "Студент успешно зарегистрирован.";
+            }
         } catch (Exception $e) {
             $this->conn->rollback();
             return $e->getMessage();
@@ -51,7 +57,20 @@ class RegisterModel  extends BaseModel {
 
         $stmt->bind_param("i", $user_id);
         if (!$stmt->execute() || $stmt->affected_rows < 0) {
-            throw new Exception("Ошибка при добавлении преподавателя: " . $stmt->error);
+            throw new Exception("Ошибка при добавлении новой строки в таблицу Teachers: " . $stmt->error);
+        }
+    }
+
+    private function insertStudents($user_id, $group_id) {
+        $sql = "INSERT INTO Students (user_id, group_id) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            throw new Exception("Ошибка подготовки запроса для Students: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("ii", $user_id, $group_id);
+        if (!$stmt->execute() || $stmt->affected_rows < 0) {
+            throw new Exception("Ошибка при добавлении новой строки в таблицу Students: " . $stmt->error);
         }
     }
 }
