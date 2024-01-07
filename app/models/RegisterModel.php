@@ -10,12 +10,12 @@ class RegisterModel  extends BaseModel {
         try {
             $this->conn->begin_transaction();
             
-            $user_id = $this->insertUser($email, $password, $role_id);
+            $user_id = $this->insertUser($first_name, $last_name, $email, $password, $role_id);
             if(!$user_id){
                 throw new Exception("Ошибка при регистрации пользователя.");
             }
 
-            $this->insertTeacher($user_id, $first_name, $last_name);
+            $this->insertTeacher($user_id);
             $this->conn->commit();
             return "Пользователь и преподаватель успешно зарегистрированы.";
         } catch (Exception $e) {
@@ -24,8 +24,8 @@ class RegisterModel  extends BaseModel {
         }
         }
 
-    private function insertUser($email, $password, $role_id) {
-        $sql = "INSERT INTO Users (email, password, role_id) VALUES (?, ?, ?)";
+    private function insertUser($first_name, $last_name, $email, $password, $role_id) {
+        $sql = "INSERT INTO Users (first_name, last_name, email, password, role_id) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
     
         if (!$stmt) {
@@ -33,7 +33,7 @@ class RegisterModel  extends BaseModel {
         }
     
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt->bind_param("ssi", $email, $hashedPassword, $role_id);
+        $stmt->bind_param("ssssi", $first_name, $last_name, $email, $hashedPassword, $role_id);
     
         if ($stmt->execute() && $stmt->affected_rows > 0) {
             // Получение последнего вставленного user_id
@@ -42,14 +42,14 @@ class RegisterModel  extends BaseModel {
         return false;
     }
 
-    private function insertTeacher($user_id, $first_name, $last_name) {
-        $sql = "INSERT INTO Teachers (user_id, first_name, last_name) VALUES (?, ?, ?)";
+    private function insertTeacher($user_id) {
+        $sql = "INSERT INTO Teachers (user_id) VALUES (?)";
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
             throw new Exception("Ошибка подготовки запроса для Teachers: " . $this->conn->error);
         }
 
-        $stmt->bind_param("iss", $user_id, $first_name, $last_name);
+        $stmt->bind_param("i", $user_id);
         if (!$stmt->execute() || $stmt->affected_rows < 0) {
             throw new Exception("Ошибка при добавлении преподавателя: " . $stmt->error);
         }

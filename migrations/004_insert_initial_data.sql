@@ -7,27 +7,33 @@ INSERT INTO Roles (role_id, role_name) VALUES
 (2, 'Teacher'),
 (3, 'Student');
 
-INSERT INTO Users (user_id, email, password, registration_date, role_id) VALUES
-(1, 'admin@example.com', '$2y$10$TURls5Z01/fUvnWT4RwCH.8GRf9HTTqlYIAcuvT4JCQoH5Mzw4tvq', NOW(), 1),
-(2, 'teacher@example.com', '$2y$10$TURls5Z01/fUvnWT4RwCH.8GRf9HTTqlYIAcuvT4JCQoH5Mzw4tvq', NOW(), 2),
-(3, 'student@example.com', '$2y$10$TURls5Z01/fUvnWT4RwCH.8GRf9HTTqlYIAcuvT4JCQoH5Mzw4tvq', NOW(), 3);
+INSERT INTO Users (user_id, first_name, last_name, email, password, registration_date, role_id) VALUES
+(1, 'Иван', 'Иванов', 'admin@example.com', '$2y$10$TURls5Z01/fUvnWT4RwCH.8GRf9HTTqlYIAcuvT4JCQoH5Mzw4tvq', NOW(), 1),
+(2, 'Генадий', 'Букин', 'teacher@example.com', '$2y$10$TURls5Z01/fUvnWT4RwCH.8GRf9HTTqlYIAcuvT4JCQoH5Mzw4tvq', NOW(), 2),
+(3, 'Владимир', 'Ленин', 'student@example.com', '$2y$10$TURls5Z01/fUvnWT4RwCH.8GRf9HTTqlYIAcuvT4JCQoH5Mzw4tvq', NOW(), 3);
 
 INSERT INTO StudentGroups (group_id, group_name, course) VALUES
 (1, 'Group A', 1),
 (2, 'Group B', 2),
 (3, 'Group C', 1);
 
-INSERT INTO Students (student_id, user_id, first_name, last_name, group_id) VALUES
-(1, 3, 'John', 'Doe', 1);
+INSERT INTO Students (student_id, user_id, group_id) VALUES
+(1, 3, 1);
 
-INSERT INTO Teachers (teacher_id, user_id, first_name, last_name) VALUES
-(1, 2, 'Michael', 'Brown');
+INSERT INTO Teachers (teacher_id, user_id) VALUES
+(1, 2);
 
 INSERT INTO Subjects (subject_id, subject_name) VALUES
 (1, 'Mathematics'),
 (2, 'Physics'),
 (3, 'Biology'),
 (4, 'History');
+
+INSERT INTO TeacherSubjects (teacher_id, subject_id) VALUES 
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4);
 
 INSERT INTO ClassTimes (start_time, end_time) VALUES
 ('08:00:00', '09:30:00'),

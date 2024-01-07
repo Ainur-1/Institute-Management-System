@@ -11,8 +11,8 @@ class ScheduleModel extends BaseModel {
         SELECT 
             Subjects.subject_name,
             StudentGroups.group_name,
-            Teachers.first_name,
-            Teachers.last_name,
+            Users.first_name,
+            Users.last_name,
             Schedule.day_of_week,
             ClassTimes.start_time,
             ClassTimes.end_time
@@ -21,9 +21,11 @@ class ScheduleModel extends BaseModel {
         LEFT JOIN 
             Subjects ON Schedule.subject_id = Subjects.subject_id
         LEFT JOIN
-            StudentGroups ON StudentGroups.group_id = Schedule.group_id
+            StudentGroups ON Schedule.group_id = StudentGroups.group_id
         LEFT JOIN 
             Teachers ON Schedule.teacher_id = Teachers.teacher_id
+        LEFT JOIN 
+            Users ON Teachers.user_id = Users.user_id
         LEFT JOIN
             ClassTimes ON Schedule.class_time_id = ClassTimes.class_time_id;
         ";

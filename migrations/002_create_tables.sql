@@ -9,9 +9,11 @@ CREATE TABLE IF NOT EXISTS Roles (
 
 CREATE TABLE IF NOT EXISTS Users (
 	user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
 	email VARCHAR(50),
 	password VARCHAR(100),
-	registration_date TIMESTAMP,
+	registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	role_id INTEGER,
 	FOREIGN KEY (role_id) REFERENCES Roles(role_id)
 );
@@ -25,8 +27,6 @@ CREATE TABLE IF NOT EXISTS StudentGroups (
 CREATE TABLE IF NOT EXISTS Students (
 	student_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	user_id INTEGER,
-	first_name VARCHAR(50),
-	last_name VARCHAR(50),
 	group_id INTEGER,
 	FOREIGN KEY (user_id) REFERENCES Users(user_id),
 	FOREIGN KEY (group_id) REFERENCES StudentGroups(group_id)
@@ -35,14 +35,20 @@ CREATE TABLE IF NOT EXISTS Students (
 CREATE TABLE IF NOT EXISTS Teachers (
 	teacher_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	user_id INTEGER,
-	first_name VARCHAR(50),
-	last_name VARCHAR(50),
 	FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS Subjects (
 	subject_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	subject_name VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS TeacherSubjects (
+    teacher_id INTEGER,
+    subject_id INTEGER,
+    PRIMARY KEY (teacher_id, subject_id),
+    FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id),
+    FOREIGN KEY (subject_id) REFERENCES Subjects(subject_id)
 );
 
 CREATE TABLE IF NOT EXISTS ClassTimes (
