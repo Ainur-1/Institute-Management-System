@@ -29,24 +29,8 @@ class ScheduleModel extends BaseModel {
         LEFT JOIN
             ClassTimes ON Schedule.class_time_id = ClassTimes.class_time_id;
         ";
-        $stmt = $this->conn->prepare($sql);
-
-        if (!$stmt) {
-            die("Ошибка подготовки запроса: " . $this->conn->error);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $schedule = [];
-            while ($row = $result->fetch_assoc()) {
-                $schedule[] = $row;
-            }
-            return $schedule;
-        } else {
-            return null;
-        }
+        
+        return $this->executeSelectQuery($sql);
     }
 
     public function insertIntoSchedule($subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id) {	

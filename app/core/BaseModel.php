@@ -8,21 +8,32 @@ class BaseModel {
 
     public function selectAllFromTable($table) {
         $sql = "SELECT * FROM `" . $table . "`";
-        $result = $this->conn->query($sql);
-
-        if (!$result) {
-            die("Ошибка выполнения запроса: " . $this->conn->error);
-        }
-
-        if ($result->num_rows > 0) {
-            $tableData = [];
-            while ($row = $result->fetch_assoc()) {
-                $tableData[] = $row;
-            }
-            return $tableData;
-        } else {
-            return null;
-        }
+        return $this->executeSelectQuery($sql);
     } 
+
+    protected function executeSelectQuery($sql) {
+        try {
+            $stmt = $this->conn->prepare($sql);
+
+            if (!$stmt) {
+                throw new Exception("Ошибка подготовки запроса: " . $this->conn->error);
+            }
+
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $data = [];
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+                return $data;
+            } else {
+                return null;
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }
 ?>

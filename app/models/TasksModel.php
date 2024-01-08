@@ -26,24 +26,8 @@ class TasksModel extends BaseModel {
             LEFT JOIN
                 Users AS assignee ON Tasks.task_assignee = assignee.user_id;
         ";
-        $stmt = $this->conn->prepare($sql);
-
-        if (!$stmt) {
-            die("Ошибка подготовки запроса: " . $this->conn->error);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $schedule = [];
-            while ($row = $result->fetch_assoc()) {
-                $schedule[] = $row;
-            }
-            return $schedule;
-        } else {
-            return null;
-        }
+        
+        return $this->executeSelectQuery($sql);
     }
 }
 ?>
