@@ -11,7 +11,7 @@ class TasksController {
         $this->view = new TasksView();
     }
 
-    public function index() {
+    public function index($page) {
         session_start();
         
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
@@ -23,7 +23,14 @@ class TasksController {
 
         include 'resources/includes/header.php';
 
-        $this->displayTasks();
+        switch ($page) {
+            case 'tasks':
+                $this->displayTasks();
+                break;
+            case 'editTasks':
+                $this->displayTasksEditor();
+                break;    
+        }
 
         include 'resources/includes/footer.php';
     }
@@ -41,5 +48,10 @@ class TasksController {
         } else {
             $this->view->renderNoTasksMessage();
         }
+    }
+
+    private function displayTasksEditor() {
+        $tasks = $this->model->getTasks();
+        $this->view->renderTasksEditor($tasks);
     }
 }

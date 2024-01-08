@@ -27,10 +27,7 @@ class ProfileView {
                 </section>
             
                 <section>
-                    <h3>Управление задачами:</h3>
-                    <ul>
-                        <li>Добавить новую задачу</li>
-                    </ul>
+                    <h3><a href="/editTasks">Управление задачами</a></h3>
                 </section>
             </div>
             ';
