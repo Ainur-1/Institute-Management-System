@@ -6,27 +6,25 @@ class TasksView {
             <table border="1">
                 <thead>
                     <tr>
-                        <th>task_id</th>
-                        <th>task_name</th>
-                        <th>task_text</th>
-                        <th>task_status</th>
-                        <th>deadline</th>
-                        <th>task_owner</th>
-                        <th>task_assignee</th>
-                        <th>creation_time</th>
-                        <th>last_updated_time</th>
+                        <th>Название</th>
+                        <th>Описание</th>
+                        <th>Статус</th>
+                        <th>Крайний срок</th>
+                        <th>Владелец</th>
+                        <th>Исполнитель</th>
+                        <th>Время создания</th>
+                        <th>Время последнего обновления</th>
                     </tr>
                 </thead>
                 <tbody>';  
                     foreach ($tasks as $row) {
                         echo "<tr>";
-                        echo "<th>" . $row['task_id'] . "</th>";
                         echo "<th>" . $row['task_name'] . "</th>";
                         echo "<th>" . $row['task_text'] . "</th>";
                         echo "<th>" . $row['task_status'] . "</th>";
                         echo "<th>" . $row['deadline'] . "</th>";
-                        echo "<th>" . $row['task_owner'] . "</th>";
-                        echo "<th>" . $row['task_assignee'] . "</th>";
+                        echo "<th>" . $row['owner_first_name'] . " " . $row['owner_last_name'] . "</th>";
+                        echo "<th>" . $row['assignee_first_name'] . " " . $row['assignee_last_name'] . "</th>";
                         echo "<th>" . $row['creation_time'] . "</th>";
                         echo "<th>" . $row['last_updated_time'] . "</th>";
                         echo "</tr>";
@@ -38,7 +36,7 @@ class TasksView {
     }
 
     public function renderNoTasksMessage() {
-        echo 'Добрый день, ' . $_SESSION['username'] . '!<br>У вас пока нет задач.';
+        echo 'Добрый день, ' . $_SESSION['first_name'] . ' ' . $_SESSION['last_name'] . '!<br>У вас пока нет задач.';
     }
 }
 ?>

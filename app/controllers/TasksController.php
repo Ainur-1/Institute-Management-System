@@ -30,7 +30,13 @@ class TasksController {
 
     private function displayTasks() {
         $tasks = $this->model->getTasks();
-        if ($tasks) {
+        $hasUserTasks = false;
+        foreach ($tasks as $row) {
+            if ($row['owner_first_name'] == $_SESSION['first_name'] && $row['owner_last_name'] == $_SESSION['last_name']) {
+                $hasUserTasks = true; 
+            }
+        }
+        if ($tasks && $hasUserTasks) {
             $this->view->renderTasks($tasks);
         } else {
             $this->view->renderNoTasksMessage();
