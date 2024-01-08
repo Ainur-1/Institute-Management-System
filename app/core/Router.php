@@ -30,20 +30,21 @@ class Router {
                 $controller->index($page);
                 break;
 
-            case '/tasks':
-                $page = 'tasks';
-                $controller = new TasksController($db->conn);
-                $controller->index($page);
-                break;
-
-            case '/newUserRegistration':
-                $controller = new RegisterController($db->conn);
-                $controller->index();
-                break;
-
             case '/editSchedule':
                 $page = 'editSchedule';
                 $controller = new ScheduleController($db->conn);
+                $controller->index($page);
+                break;
+            
+            case '/addNewClass':
+                $page = 'addNewClass';
+                $controller = new ScheduleController($db->conn);
+                $controller->index($page);
+                break;
+
+            case '/tasks':
+                $page = 'tasks';
+                $controller = new TasksController($db->conn);
                 $controller->index($page);
                 break;
 
@@ -51,6 +52,11 @@ class Router {
                 $page = 'editTasks';
                 $controller = new TasksController($db->conn);
                 $controller->index($page);
+                break;    
+
+            case '/newUserRegistration':
+                $controller = new RegisterController($db->conn);
+                $controller->index();
                 break;
 
             default:

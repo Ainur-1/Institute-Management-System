@@ -22,16 +22,22 @@ class ScheduleController {
     }
 
     public function index($page) {
-        $pageTitle = "Расписание занятий";
-        include 'resources/includes/header.php';
-
         switch ($page) {
             case 'schedule':
+                $pageTitle = "Расписание занятий";
+                include 'resources/includes/header.php';
                 $this->displaySchedule();
                 break;
             case 'editSchedule':
+                $pageTitle = "Редактирование расписания";
+                include 'resources/includes/header.php';
                 $this->displayScheduleEditor();
-                break;    
+                break;
+            case 'addNewClass':
+                $pageTitle = "Добваление нового занятия";
+                include 'resources/includes/header.php';
+                $this->displayAddClass();
+                break; 
         }
 
         include 'resources/includes/footer.php';
@@ -43,6 +49,11 @@ class ScheduleController {
     }
 
     public function displayScheduleEditor() {
+        $schedule = $this->model->getSchedule();
+        $this->view->renderScheduleEditor($schedule, $this->dayOfWeekNames);
+    }
+    
+    public function displayAddClass() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $subject_id = $_POST['subject'];
             $group_id = $_POST['group'];
@@ -56,7 +67,7 @@ class ScheduleController {
             $groups = $this->model->selectAllFromTable("StudentGroups");
             $teachers = $this->model->selectAllFromTable("Teachers");
             $classTimes = $this->model->selectAllFromTable("ClassTimes"); 
-            echo $this->view->renderScheduleEditForm($subjects, $groups, $this->dayOfWeekNames, $teachers, $classTimes);
+            echo $this->view->renderAddNewClassForm($subjects, $groups, $this->dayOfWeekNames, $teachers, $classTimes);
         }
     }
 }
