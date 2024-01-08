@@ -5,7 +5,7 @@ class ProfileView {
         $output = "";
 
         if ($userData !== null) {
-            $output .= "Имя пользователя: " . $userData['username'] . "<br>"; 
+            $output .= "Имя пользователя: " . $userData['first_name'] . " " . $userData['last_name'] . "<br>"; 
             $output .= "Email: " . $userData['email'] . "<br>";
             $output .= "Сменить пароль<br>";
             $output .= '

@@ -31,6 +31,10 @@ class ProfileController {
 
     public function displayInformation($username) {
         $userData = $this->model->getUserInfo($username);
+
+        $_SESSION['first_name'] = $userData['first_name']; 
+        $_SESSION['last_name'] = $userData['last_name'];
+        
         $this->view->renderProfile($userData);
     }
 
