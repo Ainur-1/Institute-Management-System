@@ -21,7 +21,7 @@ class ScheduleController {
         $this->view = new ScheduleView();
     }
 
-    public function index($page) {
+    public function index($page, $id = null) {
         switch ($page) {
             case 'schedule':
                 $pageTitle = "Расписание занятий";
@@ -36,8 +36,13 @@ class ScheduleController {
             case 'addNewClass':
                 $pageTitle = "Добваление нового занятия";
                 include 'resources/includes/header.php';
-                $this->displayAddClass();
-                break; 
+                $this->displayAddClassForm();
+                break;
+            case 'editClass':
+                $pageTitle = "Редактирование занятия";
+                include 'resources/includes/header.php';
+                $this->displayClassEditForm($id);
+                break;
         }
 
         include 'resources/includes/footer.php';
@@ -53,7 +58,7 @@ class ScheduleController {
         $this->view->renderScheduleEditor($schedule, $this->dayOfWeekNames);
     }
     
-    public function displayAddClass() {
+    public function displayAddClassForm() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $subject_id = $_POST['subject'];
             $group_id = $_POST['group'];
@@ -69,6 +74,22 @@ class ScheduleController {
             $classTimes = $this->model->selectAllFromTable("ClassTimes"); 
             echo $this->view->renderAddNewClassForm($subjects, $groups, $this->dayOfWeekNames, $teachers, $classTimes);
         }
+    }
+
+    public function displayClassEditForm($id) {
+        $class = $this->model->getClassFromId($id);
+        $subjects = $this->model->selectAllFromTable("Subjects");
+        $groups = $this->model->selectAllFromTable("StudentGroups");
+        $teachers = $this->model->selectAllFromTable("Teachers");
+        $classTimes = $this->model->selectAllFromTable("ClassTimes"); 
+
+        $this->view->renderClassEditForm($class, $subjects, $groups, $this->dayOfWeekNames, $teachers, $classTimes);
+    }
+
+    public function deleteClass($schedule_id) {
+        $this->model->deleteClass($schedule_id);
+        header("Location: /editSchedule"); 
+        exit();
     }
 }
 ?>

@@ -1,5 +1,6 @@
 <?php
 class Router {
+
     public function route() {
         $uri = $_SERVER['REQUEST_URI'];
 
@@ -13,6 +14,23 @@ class Router {
 
         $db = new Database();
         
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
+            switch ($_GET['action']) {
+                case 'deleteClass':
+                    if (isset($_GET['id'])) {
+                        $controller = new ScheduleController($db->conn);
+                        $controller->deleteClass($_GET['id']);
+                    }
+                    break;
+                case 'editClass':
+                    if (isset($_GET['id'])) {
+                        $controller = new ScheduleController($db->conn);
+                        $controller->index('editClass',$_GET['id']);
+                    }
+                    break;
+            }
+        }
+
         switch ($uri) {
             case '/':
                 $controller = new AuthenticateController($db->conn);

@@ -8,7 +8,8 @@ class ScheduleModel extends BaseModel {
 
     public function getSchedule() {
         $sql = "
-        SELECT 
+        SELECT
+            Schedule.schedule_id,
             Subjects.subject_name,
             StudentGroups.group_name,
             Users.first_name,
@@ -31,6 +32,27 @@ class ScheduleModel extends BaseModel {
         ";
         
         return $this->executeSelectQuery($sql);
+    }
+
+    public function getClassFromId($schedule_id) {
+        $sql = "SELECT * FROM Schedule WHERE schedule_id = ?";
+        $stmt = $this->conn->prepare($sql);
+    
+        if(!$stmt){
+            throw new Exception("Ошибка подготовки запроса: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param("i", $schedule_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if($result->num_rows === 0) {
+            return null; 
+        }
+    
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        return $data;
     }
 
     public function insertIntoSchedule($subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id) {	
@@ -63,5 +85,46 @@ class ScheduleModel extends BaseModel {
             echo "Ошибка выполнения запроса: " . $stmt->error;
         }
     }
+
+    public function deleteClass($schedule_id) {
+        // Проверка соединения с базой данных
+        if (!$this->conn) {
+            die("Ошибка соединения с базой данных.");
+        }
+    
+        // Проверка наличия записи с указанным schedule_id
+        $checkSql = "SELECT COUNT(*) FROM `Schedule` WHERE `schedule_id` = ?";
+        $checkStmt = $this->conn->prepare($checkSql);
+        $checkStmt->bind_param("i", $schedule_id);
+        $checkStmt->execute();
+        $count = 0;
+        $checkStmt->bind_result($count);
+        $checkStmt->fetch();
+        $checkStmt->close();
+    
+        if ($count == 0) {
+            echo "Запись с ID {$schedule_id} не найдена.";
+            return;
+        }
+    
+        // Удаление записи
+        $sql = "DELETE FROM `Schedule` WHERE `schedule_id` = ?";
+        $stmt = $this->conn->prepare($sql);
+    
+        if (!$stmt) {
+            die("Ошибка подготовки запроса: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param("i", $schedule_id);
+    
+        if ($stmt->execute()) {
+            echo "Запись успешно удалена.";
+        } else {
+            echo "Ошибка выполнения запроса: " . $stmt->error;
+        }
+    
+        $stmt->close();
+    }
+    
 }
 ?>
