@@ -29,5 +29,100 @@ class TasksModel extends BaseModel {
         
         return $this->executeSelectQuery($sql);
     }
+
+    public function getTaskFromId($task_id) {
+        $sql = "SELECT * FROM `Tasks` WHERE `task_id` = ?";
+        $stmt = $this->conn->prepare($sql);
+    
+        if(!$stmt){
+            throw new Exception("Ошибка подготовки запроса: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param("i", $task_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if($result->num_rows === 0) {
+            return null; 
+        }
+    
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        return $data;
+    }
+
+    public function insertIntoTasks($task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee) {	
+        $sql = "
+        INSERT INTO Tasks (
+            task_name,
+            task_text,
+            task_status,
+            deadline,
+            task_owner,
+            task_assignee,
+            creation_time,
+            last_updated_time
+        ) 
+        VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
+        ";
+        
+        $stmt = $this->conn->prepare($sql);
+
+        if(!$stmt){
+            die("Ошибка подготовки запроса" . $this->conn->error);
+        }
+
+        $stmt->bind_param("ssisii", $task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee);
+
+        if ($stmt->execute()) {
+            if ($stmt->affected_rows > 0) {
+                echo "Запись успешно добавлена.";
+            } else {
+                echo "Запись не добавлена (возможно, конфликт с существующими данными).";
+            }
+        } else {
+            echo "Ошибка выполнения запроса: " . $stmt->error;
+        }
+    }
+
+    public function deleteTask($task_id) {
+        // Проверка соединения с базой данных
+        if (!$this->conn) {
+            die("Ошибка соединения с базой данных.");
+        }
+    
+        // Проверка наличия записи с указанным task_id
+        $checkSql = "SELECT COUNT(*) FROM `Tasks` WHERE `task_id` = ?";
+        $checkStmt = $this->conn->prepare($checkSql);
+        $checkStmt->bind_param("i", $task_id);
+        $checkStmt->execute();
+        $count = 0;
+        $checkStmt->bind_result($count);
+        $checkStmt->fetch();
+        $checkStmt->close();
+    
+        if ($count == 0) {
+            echo "Запись с ID {$task_id} не найдена.";
+            return;
+        }
+    
+        // Удаление записи
+        $sql = "DELETE FROM `Tasks` WHERE `task_id` = ?";
+        $stmt = $this->conn->prepare($sql);
+    
+        if (!$stmt) {
+            die("Ошибка подготовки запроса: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param("i", $task_id);
+    
+        if ($stmt->execute()) {
+            echo "Запись успешно удалена.";
+        } else {
+            echo "Ошибка выполнения запроса: " . $stmt->error;
+        }
+    
+        $stmt->close();
+    }
 }
 ?>

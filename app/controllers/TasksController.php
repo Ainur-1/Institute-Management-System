@@ -11,7 +11,7 @@ class TasksController {
         $this->view = new TasksView();
     }
 
-    public function index($page) {
+    public function index($page, $id = null) {
         session_start();
         
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
@@ -19,17 +19,27 @@ class TasksController {
             exit;
         }
 
-        $pageTitle = "Задачи";
-
-        include 'resources/includes/header.php';
-
         switch ($page) {
             case 'tasks':
+                $pageTitle = "Задачи";
+                include 'resources/includes/header.php';
                 $this->displayTasks();
                 break;
             case 'editTasks':
+                $pageTitle = "Редактирование задач";
+                include 'resources/includes/header.php';
                 $this->displayTasksEditor();
-                break;    
+                break;
+            case 'addNewTask':
+                $pageTitle = "Добваление новой задачи";
+                include 'resources/includes/header.php';
+                $this->displayAddTaskForm();
+                break;
+            case 'editTask':
+                $pageTitle = "Редактирование занятия";
+                include 'resources/includes/header.php';
+                $this->displayTaskEditForm  ($id);
+                break; 
         }
 
         include 'resources/includes/footer.php';
@@ -53,5 +63,35 @@ class TasksController {
     private function displayTasksEditor() {
         $tasks = $this->model->getTasks();
         $this->view->renderTasksEditor($tasks);
+    }
+
+    public function displayAddTaskForm() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $task_name = $_POST['task_name'];
+            $task_text = $_POST['task_text'];
+            $task_status = $_POST['task_status'];
+            $deadline = $_POST['deadline'];
+            $task_owner = $_POST['task_owner'];
+            $task_assignee = $_POST['task_assignee'];
+
+            $this->model->insertIntoTasks($task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee);
+        } else {
+            $users = $this->model->selectAllFromTable("Users");
+            echo $this->view->renderAddNewTaskForm($users);
+        }
+    }
+    
+    public function displayTaskEditForm($id) {
+        $task = $this->model->getTaskFromId($id);
+        $tasks = $this->model->selectAllFromTable("Tasks");
+        $users = $this->model->selectAllFromTable("Users");
+
+        $this->view->renderTaskEditForm($task, $tasks, $users);
+    }
+    
+    public function deleteTask($task_id) {
+        $this->model->deleteTask($task_id);
+        header("Location: /editTasks"); 
+        exit();
     }
 }
