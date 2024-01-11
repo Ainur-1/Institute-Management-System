@@ -1,9 +1,10 @@
 <?php
+ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('display_startupf_errors', 1);
 
-header("Location: app/views/authenticate/index.php");
-// header("Location: app/views/usersList/usersList.php");
-exit;
+require_once 'app/core/Router.php';
+
+$router = new Router();
+$router->route();
 ?>

@@ -1,6 +1,6 @@
 <?php
-class LoginView {
-    public function output() {
+class AuthenticateView {
+    public function renderAuthForm() {
         return '
         <form action="" method="post">
             <h2>Авторизация</h2>

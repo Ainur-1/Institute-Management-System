@@ -1,19 +1,15 @@
 <?php
 class ProfileModel {
     private $conn;
+    private $user;
 
     public function __construct($conn){
         $this->conn = $conn;
+        $this->user = new User($this->conn);
     }
 
     public function getUserInfo($username) {
-        $sql = "SELECT * FROM Users WHERE login='$username'";
-        $result = $this->conn->query($sql);
-        if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
-        } else {
-            return null;
-        }
+        return $this->user->getUserByEmail($username);
     }
 }
 ?> 

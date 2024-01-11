@@ -1,6 +1,6 @@
 <?php
-include '../../models/UserModel.php';
-include '../../views/authenticate/login_view.php';
+include_once 'app/models/AuthenticateModel.php';
+include_once 'app/views/AuthenticateView.php';
 
 class AuthenticateController
 {
@@ -9,10 +9,18 @@ class AuthenticateController
 
     public function __construct($conn)
     {
-        $this->model = new UserModel($conn);
-        $this->view = new LoginView();
+        $this->model = new AuthenticateModel($conn);
+        $this->view = new AuthenticateView();
     }
 
+    public function index () {
+        $pageTitle = "Авторизация";
+        include 'resources/includes/header.php';
+
+        $this->authenticate();
+
+        include 'resources/includes/footer.php';
+    }
     public function authenticate() {
         session_start();
 
@@ -26,13 +34,13 @@ class AuthenticateController
                 $_SESSION['logged_in'] = true;
                 $_SESSION['username'] = $username;
                 
-                header("Location: ../profile/index.php");
+                header("Location: /profile");
                 exit;
             } else {
                 echo $result;
             }
         } else {
-            echo $this->view->output();
+            echo $this->view->renderAuthForm();
         }
     }
 }

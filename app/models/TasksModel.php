@@ -1,48 +1,44 @@
 <?php
 require_once "app/core/BaseModel.php";
 
-class ScheduleModel extends BaseModel {
+class TasksModel extends BaseModel {
     public function __construct($conn) {
         parent::__construct($conn);
     }
 
-    public function getSchedule() {
+    public function getTasks() {
         $sql = "
-        SELECT
-            Schedule.schedule_id,
-            Subjects.subject_name,
-            StudentGroups.group_name,
-            Users.first_name,
-            Users.last_name,
-            Schedule.day_of_week,
-            ClassTimes.start_time,
-            ClassTimes.end_time
-        FROM 
-            Schedule
-        LEFT JOIN 
-            Subjects ON Schedule.subject_id = Subjects.subject_id
-        LEFT JOIN
-            StudentGroups ON Schedule.group_id = StudentGroups.group_id
-        LEFT JOIN 
-            Teachers ON Schedule.teacher_id = Teachers.teacher_id
-        LEFT JOIN 
-            Users ON Teachers.user_id = Users.user_id
-        LEFT JOIN
-            ClassTimes ON Schedule.class_time_id = ClassTimes.class_time_id;
+            SELECT
+                Tasks.task_id,
+                Tasks.task_name,
+                Tasks.task_text,
+                Tasks.task_status,
+                Tasks.deadline,
+                owner.first_name AS owner_first_name,
+                owner.last_name AS owner_last_name,
+                assignee.first_name AS assignee_first_name,
+                assignee.last_name AS assignee_last_name,
+                Tasks.creation_time,
+                Tasks.last_updated_time
+            FROM Tasks
+            LEFT JOIN
+                Users AS owner ON Tasks.task_owner = owner.user_id
+            LEFT JOIN
+                Users AS assignee ON Tasks.task_assignee = assignee.user_id;
         ";
         
         return $this->executeSelectQuery($sql);
     }
 
-    public function getClassFromId($schedule_id) {
-        $sql = "SELECT * FROM Schedule WHERE schedule_id = ?";
+    public function getTaskFromId($task_id) {
+        $sql = "SELECT * FROM `Tasks` WHERE `task_id` = ?";
         $stmt = $this->conn->prepare($sql);
     
         if(!$stmt){
             throw new Exception("Ошибка подготовки запроса: " . $this->conn->error);
         }
     
-        $stmt->bind_param("i", $schedule_id);
+        $stmt->bind_param("i", $task_id);
         $stmt->execute();
         $result = $stmt->get_result();
     
@@ -55,16 +51,19 @@ class ScheduleModel extends BaseModel {
         return $data;
     }
 
-    public function insertIntoSchedule($subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id) {	
+    public function insertIntoTasks($task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee) {	
         $sql = "
-        INSERT INTO Schedule (
-            subject_id, 
-            group_id,
-            teacher_id, 
-            day_of_week, 
-            class_time_id
-            ) 
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO Tasks (
+            task_name,
+            task_text,
+            task_status,
+            deadline,
+            task_owner,
+            task_assignee,
+            creation_time,
+            last_updated_time
+        ) 
+        VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
         ";
         
         $stmt = $this->conn->prepare($sql);
@@ -73,7 +72,7 @@ class ScheduleModel extends BaseModel {
             die("Ошибка подготовки запроса" . $this->conn->error);
         }
 
-        $stmt->bind_param("iiiii", $subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id);
+        $stmt->bind_param("ssisii", $task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee);
 
         if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {
@@ -86,16 +85,16 @@ class ScheduleModel extends BaseModel {
         }
     }
 
-    public function deleteClass($schedule_id) {
+    public function deleteTask($task_id) {
         // Проверка соединения с базой данных
         if (!$this->conn) {
             die("Ошибка соединения с базой данных.");
         }
     
-        // Проверка наличия записи с указанным schedule_id
-        $checkSql = "SELECT COUNT(*) FROM `Schedule` WHERE `schedule_id` = ?";
+        // Проверка наличия записи с указанным task_id
+        $checkSql = "SELECT COUNT(*) FROM `Tasks` WHERE `task_id` = ?";
         $checkStmt = $this->conn->prepare($checkSql);
-        $checkStmt->bind_param("i", $schedule_id);
+        $checkStmt->bind_param("i", $task_id);
         $checkStmt->execute();
         $count = 0;
         $checkStmt->bind_result($count);
@@ -103,19 +102,19 @@ class ScheduleModel extends BaseModel {
         $checkStmt->close();
     
         if ($count == 0) {
-            echo "Запись с ID {$schedule_id} не найдена.";
+            echo "Запись с ID {$task_id} не найдена.";
             return;
         }
     
         // Удаление записи
-        $sql = "DELETE FROM `Schedule` WHERE `schedule_id` = ?";
+        $sql = "DELETE FROM `Tasks` WHERE `task_id` = ?";
         $stmt = $this->conn->prepare($sql);
     
         if (!$stmt) {
             die("Ошибка подготовки запроса: " . $this->conn->error);
         }
     
-        $stmt->bind_param("i", $schedule_id);
+        $stmt->bind_param("i", $task_id);
     
         if ($stmt->execute()) {
             echo "Запись успешно удалена.";
@@ -125,6 +124,5 @@ class ScheduleModel extends BaseModel {
     
         $stmt->close();
     }
-    
 }
 ?>

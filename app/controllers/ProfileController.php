@@ -1,6 +1,6 @@
 <?php
-include "../../models/ProfileModel.php";
-include "../../views/profile/profile_view.php";
+include_once "app/models/ProfileModel.php";
+include_once "app/views/ProfileView.php";
 
 class ProfileController {
     private $view;
@@ -11,9 +11,31 @@ class ProfileController {
         $this->view = new ProfileView();
     }
 
+    public function index() {
+        session_start();
+
+        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+            header("Location: /");
+            exit;
+        }
+
+        $SESSION_username = $_SESSION['username'];
+
+        $pageTitle = "Профиль";
+        include 'resources/includes/header.php';
+
+        $this->displayInformation($SESSION_username);
+
+        include 'resources/includes/footer.php';
+    }
+
     public function displayInformation($username) {
         $userData = $this->model->getUserInfo($username);
-        $this->view->output($userData);
+
+        $_SESSION['first_name'] = $userData['first_name']; 
+        $_SESSION['last_name'] = $userData['last_name'];
+        
+        $this->view->renderProfile($userData);
     }
 
 }
