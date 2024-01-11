@@ -28,6 +28,18 @@ class Router {
                         $controller->index('editClass',$_GET['id']);
                     }
                     break;
+                    case 'deleteTask':
+                        if (isset($_GET['id'])) {
+                            $controller = new TasksController($db->conn);
+                            $controller->deleteTask($_GET['id']);
+                        }
+                        break;
+                    case 'editTask':
+                        if (isset($_GET['id'])) {
+                            $controller = new TasksController($db->conn);
+                            $controller->index('editTask',$_GET['id']);
+                        }
+                        break;
             }
         }
 
@@ -70,7 +82,13 @@ class Router {
                 $page = 'editTasks';
                 $controller = new TasksController($db->conn);
                 $controller->index($page);
-                break;    
+                break;
+            
+            case '/addNewTask':
+                $page = 'addNewTask';
+                $controller = new TasksController($db->conn);
+                $controller->index($page);
+                break;  
 
             case '/newUserRegistration':
                 $controller = new RegisterController($db->conn);
