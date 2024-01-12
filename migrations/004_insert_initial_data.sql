@@ -1,4 +1,4 @@
--- 003_insert_initial_data.sql
+-- 004_insert_initial_data.sql
 
 USE ims;
 
@@ -48,6 +48,13 @@ INSERT INTO Schedule (subject_id, group_id, teacher_id, day_of_week, class_time_
 (4, 2, 1, 4, 3),
 (1, 3, 1, 5, 1);
 
-INSERT INTO Tasks (task_id, task_name, task_text, task_status, deadline, task_owner, task_assignee, creation_time, last_updated_time) VALUES
-(1, 'Math Homework', 'Complete exercises 1-5', 'Pending', '2024-01-10 23:59:59', 1, 3, NOW(), NOW()),
-(2, 'Physics Assignment', 'Write a report on topic XYZ', 'InProgress', '2024-01-15 23:59:59', 2, 2, NOW(), NOW());
+INSERT INTO TaskStatuses (status_name) VALUES
+('Не начата'),
+('В процессе'),
+('Завершена'),
+('Отменена'),
+('Просрочена');
+
+INSERT INTO Tasks (task_id, task_name, task_text, task_status_id, deadline, task_owner, task_assignee, creation_time, last_updated_time) VALUES
+(1, 'Math Homework', 'Complete exercises 1-5', 1, '2024-01-10 23:59:59', 1, 3, NOW(), NOW()),
+(2, 'Physics Assignment', 'Write a report on topic XYZ', 1, '2024-01-15 23:59:59', 2, 2, NOW(), NOW());

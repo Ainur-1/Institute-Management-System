@@ -70,16 +70,22 @@ CREATE TABLE IF NOT EXISTS Schedule (
 	FOREIGN KEY (class_time_id) REFERENCES ClassTimes(class_time_id)
 );
 
+CREATE TABLE IF NOT EXISTS TaskStatuses (
+    status_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    status_name VARCHAR(20) NOT NULL UNIQUE
+);
+
 CREATE TABLE IF NOT EXISTS Tasks (
 	task_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	task_name VARCHAR(50),
 	task_text VARCHAR(500),
-	task_status VARCHAR(20),
+	task_status_id INTEGER DEFAULT 1,
 	deadline TIMESTAMP,
 	task_owner INTEGER,
 	task_assignee INTEGER,
 	creation_time TIMESTAMP,
 	last_updated_time TIMESTAMP,
+	FOREIGN KEY (task_status_id) REFERENCES TaskStatuses(status_id),
 	FOREIGN KEY (task_owner) REFERENCES Users(user_id),
 	FOREIGN KEY (task_assignee) REFERENCES Users(user_id)
 );
