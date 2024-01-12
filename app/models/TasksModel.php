@@ -8,23 +8,26 @@ class TasksModel extends BaseModel {
 
     public function getTasks() {
         $sql = "
-            SELECT
-                Tasks.task_id,
-                Tasks.task_name,
-                Tasks.task_text,
-                Tasks.task_status,
-                Tasks.deadline,
-                owner.first_name AS owner_first_name,
-                owner.last_name AS owner_last_name,
-                assignee.first_name AS assignee_first_name,
-                assignee.last_name AS assignee_last_name,
-                Tasks.creation_time,
-                Tasks.last_updated_time
-            FROM Tasks
-            LEFT JOIN
-                Users AS owner ON Tasks.task_owner = owner.user_id
-            LEFT JOIN
-                Users AS assignee ON Tasks.task_assignee = assignee.user_id;
+        SELECT
+            Tasks.task_id,
+            Tasks.task_name,
+            Tasks.task_text,
+            TaskStatuses.status_name,
+            Tasks.deadline,
+            owner.first_name AS owner_first_name,
+            owner.last_name AS owner_last_name,
+            assignee.first_name AS assignee_first_name,
+            assignee.last_name AS assignee_last_name,
+            Tasks.creation_time,
+            Tasks.last_updated_time
+        FROM 
+            Tasks
+        LEFT JOIN
+            TaskStatuses ON Tasks.task_status_id = TaskStatuses.status_id
+        LEFT JOIN
+            Users AS owner ON Tasks.task_owner = owner.user_id
+        LEFT JOIN
+            Users AS assignee ON Tasks.task_assignee = assignee.user_id;
         ";
         
         return $this->executeSelectQuery($sql);
@@ -51,19 +54,18 @@ class TasksModel extends BaseModel {
         return $data;
     }
 
-    public function insertIntoTasks($task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee) {	
+    public function insertIntoTasks($task_name, $task_text, $deadline, $task_owner, $task_assignee) {	
         $sql = "
         INSERT INTO Tasks (
             task_name,
             task_text,
-            task_status,
             deadline,
             task_owner,
             task_assignee,
             creation_time,
             last_updated_time
         ) 
-        VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
+        VALUES (?, ?, ?, ?, ?, NOW(), NOW())
         ";
         
         $stmt = $this->conn->prepare($sql);
@@ -72,7 +74,7 @@ class TasksModel extends BaseModel {
             die("Ошибка подготовки запроса" . $this->conn->error);
         }
 
-        $stmt->bind_param("ssisii", $task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee);
+        $stmt->bind_param("sssii", $task_name, $task_text, $deadline, $task_owner, $task_assignee);
 
         if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {

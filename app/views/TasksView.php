@@ -21,7 +21,7 @@ class TasksView {
                         echo "<tr>";
                         echo "<td>" . $row['task_name'] . "</td>";
                         echo "<td>" . $row['task_text'] . "</td>";
-                        echo "<td>" . $row['task_status'] . "</td>";
+                        echo "<td>" . $row['status_name'] . "</td>";
                         echo "<td>" . $row['deadline'] . "</td>";
                         echo "<td>" . $row['owner_first_name'] . " " . $row['owner_last_name'] . "</td>";
                         echo "<td>" . $row['assignee_first_name'] . " " . $row['assignee_last_name'] . "</td>";
@@ -61,7 +61,7 @@ class TasksView {
                         echo "<tr>";
                         echo "<td>" . $row['task_name'] . "</td>";
                         echo "<td>" . $row['task_text'] . "</td>";
-                        echo "<td>" . $row['task_status'] . "</td>";
+                        echo "<td>" . $row['status_name'] . "</td>";
                         echo "<td>" . $row['deadline'] . "</td>";
                         echo "<td>" . $row['owner_first_name'] . " " . $row['owner_last_name'] . "</td>";
                         echo "<td>" . $row['assignee_first_name'] . " " . $row['assignee_last_name'] . "</td>";
@@ -83,20 +83,13 @@ class TasksView {
     public function renderAddNewTaskForm($users) {
         echo '
         <div class="edit-container">
-            <h2>Добваление новой задачи</h2>
+            <h2>Добаваление новой задачи</h2>
             <form action="" method="post">
                 <label for="task_name">Название:</label>
                 <input type="text" name="task_name" id="task_name" required>';
 
             echo '<label for="task_text">Описание:</label>
-                <input type="text" name="task_text" id="task_text" required>';
-
-            echo '<label for="task_status">Статус:</label>
-                <select name="task_status" id="task_name">';
-                    foreach ($users as $group) {
-                        echo '<option value="' . $group['group_id'] . '">' . $group['group_name'] . '</option>';
-                    }
-            echo '</select>
+                <input type="text" name="task_text" id="task_text" required>
 
                 <label for="deadline">Крайний срок:</label>
                 <input  type="date" name="deadline" id="deadline">';
@@ -121,7 +114,7 @@ class TasksView {
         ';
     }
 
-    public function renderTaskEditForm($task, $tasks, $users) {
+    public function renderTaskEditForm($task, $tasks, $taskStatuses, $users) {
         echo '
         <div class="edit-container">
             <h2>Редактирование задачи</h2>
@@ -132,10 +125,10 @@ class TasksView {
             echo '<label for="task_text">Описание:</label>
                 <input type="text" name="task_text" id="task_text" required>';
 
-            echo '<label for="task_status">Статус:</label>
-                <select name="task_status" id="task_name">';
-                    foreach ($users as $group) {
-                        echo '<option value="' . $group['group_id'] . '">' . $group['group_name'] . '</option>';
+            echo '<label for="status_name">Статус:</label>
+                <select name="status_name" id="task_name">';
+                    foreach ($taskStatuses as $status) {
+                        echo '<option value="' . $status['status_id'] . '">' . $status['status_name'] . '</option>';
                     }
             echo '</select>
 

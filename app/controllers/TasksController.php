@@ -69,14 +69,14 @@ class TasksController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $task_name = $_POST['task_name'];
             $task_text = $_POST['task_text'];
-            $task_status = $_POST['task_status'];
             $deadline = $_POST['deadline'];
             $task_owner = $_POST['task_owner'];
             $task_assignee = $_POST['task_assignee'];
 
-            $this->model->insertIntoTasks($task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee);
+            $this->model->insertIntoTasks($task_name, $task_text, $deadline, $task_owner, $task_assignee);
         } else {
             $users = $this->model->selectAllFromTable("Users");
+
             echo $this->view->renderAddNewTaskForm($users);
         }
     }
@@ -84,9 +84,10 @@ class TasksController {
     public function displayTaskEditForm($id) {
         $task = $this->model->getTaskFromId($id);
         $tasks = $this->model->selectAllFromTable("Tasks");
+        $taskStatuses = $this->model->selectAllFromTable("TaskStatuses");
         $users = $this->model->selectAllFromTable("Users");
 
-        $this->view->renderTaskEditForm($task, $tasks, $users);
+        $this->view->renderTaskEditForm($task, $tasks, $taskStatuses, $users);
     }
     
     public function deleteTask($task_id) {
