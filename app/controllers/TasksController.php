@@ -81,13 +81,35 @@ class TasksController {
         }
     }
     
+    public function updateTask() {
+        $task_id = $_POST['task_id'];
+        $task_name = $_POST['task_name'];
+        $task_text = $_POST['task_text'];
+        $task_status = $_POST['status_name'];
+        $deadline = $_POST['deadline'];
+        $task_owner = $_POST['task_owner'];
+        $task_assignee = $_POST['task_assignee'];
+
+        $this->model->updateTask($task_id, $task_name, $task_text, $deadline, $task_owner, $task_assignee, $task_status);
+            
+        header("Location: /editTasks");
+        exit();
+    }
+
     public function displayTaskEditForm($id) {
         $task = $this->model->getTaskFromId($id);
         $tasks = $this->model->selectAllFromTable("Tasks");
         $taskStatuses = $this->model->selectAllFromTable("TaskStatuses");
         $users = $this->model->selectAllFromTable("Users");
 
-        $this->view->renderTaskEditForm($task, $tasks, $taskStatuses, $users);
+        foreach($tasks as $row) {
+            if ($row['task_id'] == $task['task_id']) { 
+                $owner_id = $row['task_owner'];
+                $assignee_id = $row['task_assignee'];
+            }
+        }
+
+        $this->view->renderTaskEditForm($task, $owner_id, $assignee_id, $taskStatuses, $users);
     }
     
     public function deleteTask($task_id) {

@@ -88,7 +88,12 @@ class Router {
                 $page = 'addNewTask';
                 $controller = new TasksController($db->conn);
                 $controller->index($page);
-                break;  
+                break;
+            
+            case '/updateTask':
+                $controller = new TasksController($db->conn);
+                $controller->updateTask();
+                break;
 
             case '/newUserRegistration':
                 $controller = new RegisterController($db->conn);

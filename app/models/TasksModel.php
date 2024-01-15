@@ -54,18 +54,48 @@ class TasksModel extends BaseModel {
         return $data;
     }
 
-    public function insertIntoTasks($task_name, $task_text, $deadline, $task_owner, $task_assignee) {	
+    public function updateTask($task_id, $task_name, $task_text, $deadline, $task_owner, $task_assignee, $task_status_id) {
+        $sql = "
+        UPDATE Tasks 
+        SET 
+            task_name = ?, 
+            task_text = ?, 
+            task_status_id = ?, 
+            deadline = ?, 
+            task_owner = ?, 
+            task_assignee = ?, 
+            last_updated_time = NOW() 
+        WHERE 
+            task_id = ?
+        ";
+        $stmt = $this->conn->prepare($sql);
+        
+        if(!$stmt){
+            die("Ошибка подготовки запроса:" . $this->conn->error);
+        }
+        
+        $stmt->bind_param("ssisiii", $task_name, $task_text, $task_status_id, $deadline, $task_owner, $task_assignee, $task_id);
+        
+        if ($stmt->execute()) {
+            echo "Запись успешно обновлена.";
+        } else {
+            die("Ошибка выполнения запроса: " . $stmt->error);
+        }
+    }
+    
+    public function insertIntoTasks($task_name, $task_text, $deadline, $task_owner, $task_assignee, $task_status_id = 1) {	
         $sql = "
         INSERT INTO Tasks (
             task_name,
             task_text,
+            task_status_id,
             deadline,
             task_owner,
             task_assignee,
             creation_time,
             last_updated_time
         ) 
-        VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+        VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
         ";
         
         $stmt = $this->conn->prepare($sql);
@@ -74,7 +104,7 @@ class TasksModel extends BaseModel {
             die("Ошибка подготовки запроса" . $this->conn->error);
         }
 
-        $stmt->bind_param("sssii", $task_name, $task_text, $deadline, $task_owner, $task_assignee);
+        $stmt->bind_param("ssisii", $task_name, $task_text, $task_status_id, $deadline, $task_owner, $task_assignee);
 
         if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {
