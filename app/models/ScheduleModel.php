@@ -55,6 +55,49 @@ class ScheduleModel extends BaseModel {
         return $data;
     }
 
+    public function getTeachersNames() {
+        $sql = "
+        SELECT
+            Teachers.teacher_id,
+            Users.first_name,
+            Users.last_name
+        FROM
+            Teachers
+        LEFT JOIN
+            Users ON Teachers.user_id = Users.user_id;
+        ";
+
+        return $this->executeSelectQuery($sql);
+    }
+
+    public function updateClass($schedule_id, $subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id) {	
+        $sql = "
+        UPDATE Schedule 
+        SET
+            subject_id = ?, 
+            group_id = ?,
+            teacher_id = ?, 
+            day_of_week = ?, 
+            class_time_id  = ?
+        WHERE
+            schedule_id = ?
+        ";
+        
+        $stmt = $this->conn->prepare($sql);
+
+        if(!$stmt){
+            die("Ошибка подготовки запроса:" . $this->conn->error);
+        }
+
+        $stmt->bind_param("iiiiii", $subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id, $schedule_id);
+
+        if ($stmt->execute()) {
+            echo "Запись успешно добавлена.";
+        } else {
+            die("Ошибка выполнения запроса: " . $stmt->error);
+        }
+    }
+
     public function insertIntoSchedule($subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id) {	
         $sql = "
         INSERT INTO Schedule (

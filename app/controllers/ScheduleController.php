@@ -76,11 +76,25 @@ class ScheduleController {
         }
     }
 
+    public function updateClass() {
+        $schedule_id = $_POST['schedule_id'];
+        $subject_id = $_POST['subject_id'];
+        $group_id = $_POST['group_id'];
+        $teacher_id = $_POST['teacher_id'];
+        $day_of_week = $_POST['day_of_week'];
+        $class_time_id = $_POST['class_time_id'];
+
+        $this->model->updateClass($schedule_id, $subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id);
+
+        header("Location: /editSchedule");
+        exit();
+    }
+
     public function displayClassEditForm($id) {
         $class = $this->model->getClassFromId($id);
         $subjects = $this->model->selectAllFromTable("Subjects");
         $groups = $this->model->selectAllFromTable("StudentGroups");
-        $teachers = $this->model->selectAllFromTable("Teachers");
+        $teachers = $this->model->getTeachersNames();
         $classTimes = $this->model->selectAllFromTable("ClassTimes"); 
 
         $this->view->renderClassEditForm($class, $subjects, $groups, $this->dayOfWeekNames, $teachers, $classTimes);

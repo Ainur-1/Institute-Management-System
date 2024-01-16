@@ -38,7 +38,7 @@ class TasksController {
             case 'editTask':
                 $pageTitle = "Редактирование занятия";
                 include 'resources/includes/header.php';
-                $this->displayTaskEditForm  ($id);
+                $this->displayTaskEditForm($id);
                 break; 
         }
 

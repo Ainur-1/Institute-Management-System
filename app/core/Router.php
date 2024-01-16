@@ -25,7 +25,7 @@ class Router {
                 case 'editClass':
                     if (isset($_GET['id'])) {
                         $controller = new ScheduleController($db->conn);
-                        $controller->index('editClass',$_GET['id']);
+                        $controller->index('editClass', $_GET['id']);
                     }
                     break;
                     case 'deleteTask':
@@ -37,7 +37,7 @@ class Router {
                     case 'editTask':
                         if (isset($_GET['id'])) {
                             $controller = new TasksController($db->conn);
-                            $controller->index('editTask',$_GET['id']);
+                            $controller->index('editTask', $_GET['id']);
                         }
                         break;
             }
@@ -70,6 +70,11 @@ class Router {
                 $page = 'addNewClass';
                 $controller = new ScheduleController($db->conn);
                 $controller->index($page);
+                break;
+            
+            case '/updateClass':
+                $controller = new ScheduleController($db->conn);
+                $controller->updateClass();
                 break;
 
             case '/tasks':
