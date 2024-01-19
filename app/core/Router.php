@@ -5,8 +5,9 @@ class Router {
         $uri = $_SERVER['REQUEST_URI'];
 
         include 'app/controllers/AuthenticateController.php';
-        include 'app/controllers/ProfileController.php';
         include 'app/controllers/ScheduleController.php';
+        include 'app/controllers/ProfileController.php';
+        include 'app/controllers/GroupsController.php';
         include 'app/controllers/TasksController.php';
         include 'app/controllers/UsersController.php';
         include "app/core/Database.php";
@@ -127,6 +128,12 @@ class Router {
             case '/addUser':
                 $controller = new UsersController($db->conn);
                 $controller->addUser();
+                break;
+
+            case '/groups':
+                $page = 'groups';
+                $controller = new GroupsController($db->conn);
+                $controller->index($page);
                 break;
 
             default:
