@@ -6,9 +6,9 @@ class Router {
 
         include 'app/controllers/AuthenticateController.php';
         include 'app/controllers/ProfileController.php';
-        include 'app/controllers/RegisterController.php';
         include 'app/controllers/ScheduleController.php';
         include 'app/controllers/TasksController.php';
+        include 'app/controllers/UsersController.php';
         include "app/core/Database.php";
         include 'app/core/User.php';
 
@@ -28,18 +28,30 @@ class Router {
                         $controller->index('editClass', $_GET['id']);
                     }
                     break;
-                    case 'deleteTask':
-                        if (isset($_GET['id'])) {
-                            $controller = new TasksController($db->conn);
-                            $controller->deleteTask($_GET['id']);
-                        }
-                        break;
-                    case 'editTask':
-                        if (isset($_GET['id'])) {
-                            $controller = new TasksController($db->conn);
-                            $controller->index('editTask', $_GET['id']);
-                        }
-                        break;
+                case 'deleteTask':
+                    if (isset($_GET['id'])) {
+                        $controller = new TasksController($db->conn);
+                        $controller->deleteTask($_GET['id']);
+                    }
+                    break;
+                case 'editTask':
+                    if (isset($_GET['id'])) {
+                        $controller = new TasksController($db->conn);
+                        $controller->index('editTask', $_GET['id']);
+                    }
+                    break;
+                case 'deleteUser':
+                    if (isset($_GET['id'])) {
+                        $controller = new UsersController($db->conn);
+                        $controller->deleteUser($_GET['id']);
+                    }
+                    break;
+                case 'editUser':
+                    if (isset($_GET['id'])) {
+                        $controller = new UsersController($db->conn);
+                        $controller->index('editUser', $_GET['id']);
+                    }
+                    break;
             }
         }
 
@@ -99,10 +111,22 @@ class Router {
                 $controller = new TasksController($db->conn);
                 $controller->updateTask();
                 break;
-
-            case '/newUserRegistration':
-                $controller = new RegisterController($db->conn);
-                $controller->index();
+            
+            case '/editUsers':
+                $page = 'editUsers';
+                $controller = new UsersController($db->conn);
+                $controller->index($page);
+                break;
+            
+            case '/addUserForm':
+                $page = 'addUserForm';
+                $controller = new UsersController($db->conn);
+                $controller->index($page);
+                break;
+            
+            case '/addUser':
+                $controller = new UsersController($db->conn);
+                $controller->addUser();
                 break;
 
             default:
