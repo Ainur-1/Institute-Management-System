@@ -1,8 +1,11 @@
 <?php
+include_once "resources/includes/Sidebar.php";
+
 class TasksView {
     public function renderTasks($tasks) {
-        echo '
-        <div class="schedule-container">
+        $output = (new Sidebar)->AddSidebarToTasks();
+        echo $output . '
+        <div class="schedule-container content">
             <table border="1">
                 <thead>
                     <tr>
@@ -36,12 +39,14 @@ class TasksView {
     }
 
     public function renderNoTasksMessage() {
-        echo 'Добрый день, ' . $_SESSION['first_name'] . ' ' . $_SESSION['last_name'] . '!<br>У вас пока нет задач.';
+        $output = (new Sidebar)->AddSidebarToTasks();
+        echo $output . 'Добрый день, ' . $_SESSION['first_name'] . ' ' . $_SESSION['last_name'] . '!<br>У вас пока нет задач.';
     }
 
     public function renderTasksEditor($tasks) {
-        echo '
-        <div class="schedule-container">
+        $output = (new Sidebar)->AddSidebarToTasks();
+        echo $output . '
+        <div class="schedule-container content">
             <table border="1">
                 <thead>
                     <tr>
@@ -81,8 +86,9 @@ class TasksView {
     }
 
     public function renderAddNewTaskForm($users) {
-        echo '
-        <div class="edit-container">
+        $output = (new Sidebar)->AddSidebarToTasks();
+        echo $output . '
+        <div class="edit-container content">
             <h2>Добваление новой задачи</h2>
             <form action="" method="post">
                 <label for="task_name">Название:</label>
@@ -122,8 +128,9 @@ class TasksView {
     }
 
     public function renderTaskEditForm($task, $tasks, $users) {
-        echo '
-        <div class="edit-container">
+        $output = (new Sidebar)->AddSidebarToTasks();
+        echo $output . '
+        <div class="edit-container content">
             <h2>Редактирование задачи</h2>
             <form action="" method="post">
                 <label for="task_name">Название:</label>

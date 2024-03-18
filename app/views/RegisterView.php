@@ -1,7 +1,10 @@
 <?php
+include_once "resources/includes/Sidebar.php";
 class RegisterView {
     public function renderRegisterForm($roles) {
-        echo '
+        $output = (new Sidebar)->AddSidebarToProfile();
+        echo $output . '
+        <div class="content">
         <form action="" method="post">
             <h2>Регистрация</h2>
             <label for="username">Логин:</label>
@@ -25,7 +28,7 @@ class RegisterView {
     
             <input type="submit" name="register" value="Зарегистрировать">
         </form>
-
+        </div>
         ';
     }
 }

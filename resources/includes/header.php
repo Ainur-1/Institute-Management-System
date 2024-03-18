@@ -12,8 +12,8 @@
 <body>
     <header>
         <h1 onclick="window.location.href='/'">Institute-Management-System</h1>
-        <a href="/profile">Профиль</a>
-        <a href="/schedule">Расписание</a>
-        <a href="/tasks">Задачи</a>
+        <a href="/profile" class="button">Профиль</a>
+        <a href="/schedule" class="button">Расписание</a>
+        <a href="/tasks" class="button">Задачи</a>
     </header>
     <main>

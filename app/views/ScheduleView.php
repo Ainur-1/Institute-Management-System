@@ -1,8 +1,11 @@
 <?php
+include_once "resources/includes/Sidebar.php";
+
 class ScheduleView {
     public function renderSchedule($schedule, $dayOfWeekNames) {
-        echo '
-        <div class="schedule-container">
+        $output = (new Sidebar)->AddSidebarToSchedule();
+        echo $output . '
+        <div class="schedule-container content">
             <table border="1">
                 <thead>
                     <tr>
@@ -30,8 +33,9 @@ class ScheduleView {
     }
 
     public function renderScheduleEditor($schedule, $dayOfWeekNames){
-        echo '
-        <div class="schedule-container">
+        $output = (new Sidebar)->AddSidebarToSchedule();
+        echo $output . '
+        <div class="schedule-container content">
             <table border="1">
                 <thead>
                     <tr>
@@ -65,8 +69,9 @@ class ScheduleView {
     }
 
     public function renderAddNewClassForm($subjects, $groups, $dayOfWeekNames, $teachers, $classTimes) {
-        echo '
-        <div class="edit-container">
+        $output = (new Sidebar)->AddSidebarToSchedule();
+        echo $output . '
+        <div class="edit-container content">
             <h2>Добваление нового занятия</h2>
             <form action="" method="post">
         
@@ -112,8 +117,9 @@ class ScheduleView {
     }
     
     public function renderClassEditForm($class, $subjects, $groups, $dayOfWeekNames, $teachers, $classTimes) {
-        echo '
-        <div class="edit-container">
+        $output = (new Sidebar)->AddSidebarToSchedule();
+        echo $output . '
+        <div class="edit-container content">
             <h2>Добваление нового занятия</h2>
             <form action="" method="post">
         

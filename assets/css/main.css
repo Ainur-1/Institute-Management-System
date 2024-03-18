@@ -19,21 +19,13 @@ body {
 header {
     background-color: #007bff;
     color: #fff;
+    display: flex;
     padding: 1rem;
     text-align: center;
 }
 
-header button {
-    background-color: #0056b3;
-    color: #fff;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-header button:hover {
-    background-color: #004999;
+header h1 {
+    margin-inline: 5rem;
 }
 
 .modal {
@@ -77,12 +69,8 @@ footer {
 }
 
 main {
-    padding: 2rem;
     flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 }
 
 form {
@@ -122,3 +110,38 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #0056b3;
 }
+  
+  /* Стили для боковой панели */
+  .sidebar {
+    width: 250px; /* Ширина боковой панели */
+    background-color:  #7f886A; /* Цвет фона */
+    padding: 20px; /* Внутренний отступ */
+  }
+  
+  /* Стили для блока контента */
+  .content {
+    flex: 1; /* Растягиваемый блок, чтобы занимать всё доступное пространство */
+    padding: 20px; /* Внутренний отступ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .button {
+    display: block;
+    background-color: #3E593C;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: auto;
+    margin: 0.5rem;
+}
+
+.button:hover {
+    background-color: #FF6F3D;
+}  
