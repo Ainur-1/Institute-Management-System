@@ -1,5 +1,7 @@
 -- 003_reset_auto_increment.sql
 
+USE ims;
+
 ALTER TABLE Roles AUTO_INCREMENT = 0;
 ALTER TABLE Users AUTO_INCREMENT = 0;
 ALTER TABLE StudentGroups AUTO_INCREMENT = 0;

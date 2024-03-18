@@ -71,15 +71,15 @@ CREATE TABLE IF NOT EXISTS Schedule (
 );
 
 CREATE TABLE IF NOT EXISTS Tasks (
-	task_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-	task_name VARCHAR(50),
-	task_text VARCHAR(500),
-	task_status VARCHAR(20),
-	deadline TIMESTAMP,
-	task_owner INTEGER,
-	task_assignee INTEGER,
-	creation_time TIMESTAMP,
-	last_updated_time TIMESTAMP,
-	FOREIGN KEY (task_owner) REFERENCES Users(user_id),
-	FOREIGN KEY (task_assignee) REFERENCES Users(user_id)
+    task_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    task_name VARCHAR(50),
+    task_text VARCHAR(500),
+    task_status VARCHAR(20),
+    deadline TIMESTAMP,
+    task_owner INTEGER,
+    task_assignee INTEGER,
+    creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (task_owner) REFERENCES Users(user_id),
+    FOREIGN KEY (task_assignee) REFERENCES Users(user_id)
 );
