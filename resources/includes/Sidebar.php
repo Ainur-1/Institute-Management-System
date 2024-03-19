@@ -15,6 +15,7 @@ class Sidebar {
                 <h3>Управление расписанием</h3>
                 <a href="/editSchedule" class="button">Редактирование расписания</a>
                 <a href="/addNewClass" class="button">Добваить занятие</a>
+                <a href="/addNewSubject" class="button">Добавить новый предмет</a>
             </div>
         ';
     }

@@ -163,5 +163,20 @@ class ScheduleView {
             </form>
         </div>';
     }
+
+    public function renderClassSubjectForm() {
+        $output = (new Sidebar)->AddSidebarToSchedule();
+        echo $output . '
+        <div class="edit-container content">
+            <h2>Добваление нового предмета</h2>
+            <form action="" method="post">
+        
+                <label for="subject">Предмет:</label>
+                <input type="text" id="subject" name="subject" required>
+                
+                <input type="submit" name="submit" value="Добавить">
+            </form>
+        </div>
+        ';
+    }
 }
-?>

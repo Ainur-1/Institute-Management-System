@@ -10,7 +10,7 @@ class Router {
         include 'app/controllers/ScheduleController.php';
         include 'app/controllers/TasksController.php';
         include "app/core/Database.php";
-        include 'app/core/User.php';
+        include 'app/Entities/Users.php';
 
         $db = new Database();
         
@@ -28,18 +28,18 @@ class Router {
                         $controller->index('editClass',$_GET['id']);
                     }
                     break;
-                    case 'deleteTask':
-                        if (isset($_GET['id'])) {
-                            $controller = new TasksController($db->conn);
-                            $controller->deleteTask($_GET['id']);
-                        }
-                        break;
-                    case 'editTask':
-                        if (isset($_GET['id'])) {
-                            $controller = new TasksController($db->conn);
-                            $controller->index('editTask',$_GET['id']);
-                        }
-                        break;
+                case 'deleteTask':
+                    if (isset($_GET['id'])) {
+                        $controller = new TasksController($db->conn);
+                        $controller->deleteTask($_GET['id']);
+                    }
+                    break;
+                case 'editTask':
+                    if (isset($_GET['id'])) {
+                        $controller = new TasksController($db->conn);
+                        $controller->index('editTask',$_GET['id']);
+                    }
+                    break;
             }
         }
 
@@ -50,9 +50,22 @@ class Router {
                 break;
 
             case '/profile':
+                $page = 'profile';
                 $controller = new ProfileController($db->conn);
-                $controller->index();
+                $controller->index($page);
                 break;
+
+            case '/changePasswordForm':
+                $page = 'changePasswordForm';
+                $controller = new ProfileController($db->conn);
+                $controller->index($page);
+                break;
+
+                case '/changePassword':
+                    $page = 'changePasswordForm';
+                    $controller = new ProfileController($db->conn);
+                    $controller->ChangePassword($_POST['userId'], $_POST['password'], $_POST['password1']);
+                    break;
 
             case '/schedule':
                 $page = 'schedule';
@@ -68,6 +81,12 @@ class Router {
             
             case '/addNewClass':
                 $page = 'addNewClass';
+                $controller = new ScheduleController($db->conn);
+                $controller->index($page);
+                break;
+            
+            case '/addNewSubject':
+                $page = 'addNewSubject';
                 $controller = new ScheduleController($db->conn);
                 $controller->index($page);
                 break;

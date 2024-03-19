@@ -38,6 +38,11 @@ class ScheduleController {
                 include 'resources/includes/header.php';
                 $this->displayAddClassForm();
                 break;
+            case 'addNewSubject':
+                $pageTitle = "Добваление нового предмета";
+                include 'resources/includes/header.php';
+                $this->displayAddSubjectForm();
+                break;
             case 'editClass':
                 $pageTitle = "Редактирование занятия";
                 include 'resources/includes/header.php';
@@ -85,6 +90,12 @@ class ScheduleController {
 
         $this->view->renderClassEditForm($class, $subjects, $groups, $this->dayOfWeekNames, $teachers, $classTimes);
     }
+
+    public function displayAddSubjectForm() { 
+        $this->view->renderClassSubjectForm();
+    }
+
+    
 
     public function deleteClass($schedule_id) {
         $this->model->deleteClass($schedule_id);
