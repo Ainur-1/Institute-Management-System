@@ -1,5 +1,5 @@
 <?php
-class User {
+class Users {
     private $conn;
 
     public function __construct($conn){
@@ -20,5 +20,18 @@ class User {
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
+    public function updateUserPassword($userId, $hashedPassword) {
+        $sql = "UPDATE users SET password = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+
+        if (!$stmt) {
+            die("Ошибка подготовки запроса: " . $this->conn->error);
+        }   
+
+        $stmt->bind_param("si", $hashedPassword, $userId);
+        $success = $stmt->execute();
+
+        return $success;
+    }
 }
-?>
