@@ -17,6 +17,8 @@ class ScheduleController {
     ];
 
     public function __construct($conn) {
+        session_start();
+
         $this->model = new ScheduleModel($conn);
         $this->view = new ScheduleView();
     }

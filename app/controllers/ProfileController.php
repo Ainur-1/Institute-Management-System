@@ -5,37 +5,39 @@ include_once "app/views/ProfileView.php";
 class ProfileController {
     private $view;
     private $model;
+    private $userData;
 
     public function __construct($conn) {
+        session_start();
+        
         $this->model = new ProfileModel($conn);
         $this->view = new ProfileView();
+
+        $this->checkLoggedIn();
+        $this->userData = $this->model->getUserInfo($_SESSION['username']);
+        $this->setUserDataInSession();
     }
 
-    public function displayProfile() {
+    private function checkLoggedIn() {
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
             header("Location: /");
             exit;
         }
-
-        $username = $_SESSION['username'];
-        $userData = $this->model->getUserInfo($username);
-
-        $_SESSION['first_name'] = $userData['first_name']; 
-        $_SESSION['last_name'] = $userData['last_name'];
-        
-        $this->view->index('profile', $userData);
+    }
+    
+    private function setUserDataInSession() {
+        $_SESSION['first_name'] = $this->userData['first_name']; 
+        $_SESSION['last_name'] = $this->userData['last_name'];
+        $_SESSION['user_id'] = $this->userData['user_id'];
+        $_SESSION['user_role'] = $this->userData['role_id'];
+    }
+    
+    public function displayProfile() {   
+        $this->view->index('profile', $this->userData);
     }
 
     public function displayChangePasswordForm() {
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-            header("Location: /");
-            exit;
-        }
-        $username = $_SESSION['username'];
-        $userData = $this->model->getUserInfo($username);
-        $userId = $userData['user_id'];
-
-        $this->view->index('changePasswordForm', $userId);
+        $this->view->index('changePasswordForm', $this->userData['user_id']);
     }
 
     public function ChangePassword($userId, $newPasswordFirst, $newPasswordSecond) {
@@ -61,7 +63,5 @@ class ProfileController {
         $this->view->index('changePasswordForm', $userId, $message);
     }
 
-    public function displayAllUsers(){
-        
-    }
+    public function displayAllUsers() {}
 }
