@@ -6,7 +6,7 @@ class AuthenticateModel extends BaseModel{
 
     public function __construct($conn) {
         parent::__construct($conn);
-        $this->user = new User($this->conn);
+        $this->user = new Users($this->conn);
     }
     
     public function authenticateUser($username, $password) {
