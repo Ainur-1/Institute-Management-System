@@ -39,6 +39,8 @@ class ProfileController {
     }
 
     public function ChangePassword($userId, $newPasswordFirst, $newPasswordSecond) {
+        $message = '';
+
         if ($newPasswordFirst === $newPasswordSecond){
             if (strlen($newPasswordFirst) >= 8) {
                 $hashedPassword = password_hash($newPasswordFirst, PASSWORD_DEFAULT);
@@ -56,7 +58,7 @@ class ProfileController {
             $message = "Пароли не совпадают!";
         }
 
-        $this->view->index('profile', $userId, $message);
+        $this->view->index('changePasswordForm', $userId, $message);
     }
 
     public function displayAllUsers(){

@@ -2,6 +2,10 @@
 include_once "resources/includes/Sidebar.php";
 
 class ProfileView {
+    private $sidebar;
+    public function __construct() {
+        $this->sidebar = (new Sidebar)->AddSidebarToProfile();
+    }
 
     public function index($page, ...$args) {
         switch ($page) {
@@ -13,7 +17,7 @@ class ProfileView {
             case 'changePasswordForm':
                 $pageTitle = "Смена пароля";
                 include 'resources/includes/header.php';
-                $this->renderChangePasswordForm($args[0], $args[1]);
+                $this->renderChangePasswordForm(...$args);
                 break;
             case 'allUsers':
                 $pageTitle = "Все пользователи";
@@ -25,7 +29,7 @@ class ProfileView {
         include 'resources/includes/footer.php';
     }
     public function renderProfile($userData) {
-        $output = (new Sidebar)->AddSidebarToProfile();
+        $output = $this->sidebar;
         $output .= '<div class="content">';
 
         if ($userData !== null) {
@@ -42,8 +46,7 @@ class ProfileView {
     }
 
     public function renderChangePasswordForm($userId, $message = '') {
-        $output = (new Sidebar)->AddSidebarToProfile();
-        echo $output . '
+        echo $this->sidebar . '
         <div class="content">';
         echo $message . '
             <form action="changePassword" method="post">
