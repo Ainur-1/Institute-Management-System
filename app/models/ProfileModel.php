@@ -12,6 +12,10 @@ class ProfileModel {
         return $this->user->getUserByEmail($username);
     }
 
+    public function getAllUsers(){
+        return $this->user->getUsers();
+    }
+
     public function updateUserPassword($userId, $hashedPassword) {
         return $this->user->updateUserPassword($userId, $hashedPassword);
     }

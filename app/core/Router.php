@@ -61,6 +61,10 @@ class Router {
                 (new ProfileController($db->conn))->ChangePassword($_POST['userId'], $_POST['password'], $_POST['password1']);
                 break;
 
+            case '/allUsers':
+                (new ProfileController($db->conn))->displayAllUsers();
+                break;
+
             case '/schedule':
                 $page = 'schedule';
                 $controller = new ScheduleController($db->conn);

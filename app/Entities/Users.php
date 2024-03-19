@@ -2,8 +2,21 @@
 class Users {
     private $conn;
 
-    public function __construct($conn){
+    public function __construct($conn) {
         $this->conn = $conn;
+    }
+
+    public function getUsers() {
+        $sql = "SELECT * FROM users";
+        $stmt = $this->conn->prepare($sql);
+
+        if (!$stmt) {
+            die("Ошибка подготовки запроса: " . $this->conn->error);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getUserByEmail($email) {

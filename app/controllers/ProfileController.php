@@ -35,6 +35,10 @@ class ProfileController {
     public function displayProfile() {   
         $this->view->index('profile', $this->userData);
     }
+    
+    public function displayAllUsers() {
+        $this->view->index('allUsers', $this->model->getAllUsers());
+    }
 
     public function displayChangePasswordForm() {
         $this->view->index('changePasswordForm', $this->userData['user_id']);
@@ -62,6 +66,4 @@ class ProfileController {
 
         $this->view->index('changePasswordForm', $userId, $message);
     }
-
-    public function displayAllUsers() {}
 }

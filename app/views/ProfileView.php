@@ -22,7 +22,7 @@ class ProfileView {
             case 'allUsers':
                 $pageTitle = "Все пользователи";
                 include 'resources/includes/header.php';
-                // $this->displayAllUsers();
+                $this->displayAllUsers($args[0]);
                 break;
         }
         
@@ -63,5 +63,34 @@ class ProfileView {
             </form>
         <div>
         ';
-    }   
+    }
+    
+    public function displayAllUsers($users) {
+        if ($users) {
+            echo $this->sidebar . '
+            <div class="content">
+                <table border="1">
+                    <tr>
+                        <th>ID</th>
+                        <th>Логин</th>
+                        <th>Имя</th>
+                        <th>Фамилия</th>
+                        <th>Роль</th>
+                    </tr>';
+                foreach($users as $user) {
+                    echo "<tr>";
+                    echo "<td>" . $user['user_id'] . "</td>"; 
+                    echo "<td>" . $user['email'] . "</td>";
+                    echo "<td>" . $user['first_name'] . "</td>";
+                    echo "<td>" . $user['last_name'] . "</td>";
+                    echo "<td>" . $user['role_id'] . "</td>"; 
+                    echo "</tr>";
+                }
+            echo '</table>
+            <div>
+            ';
+        } else {
+            echo $this->sidebar . '<div class="content">Нет данных для отображения<div>';
+        }
+    }    
 }
