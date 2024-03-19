@@ -40,7 +40,11 @@ class TasksView {
 
     public function renderNoTasksMessage() {
         $output = (new Sidebar)->AddSidebarToTasks();
-        echo $output . 'Добрый день, ' . $_SESSION['first_name'] . ' ' . $_SESSION['last_name'] . '!<br>У вас пока нет задач.';
+        echo $output . 
+            '<div class="content">
+                Добрый день, ' . $_SESSION['first_name'] . ' ' . $_SESSION['last_name'] . '!<br>
+                У вас пока нет задач.
+            </div>';
     }
 
     public function renderTasksEditor($tasks) {
