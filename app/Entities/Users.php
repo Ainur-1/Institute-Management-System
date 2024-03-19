@@ -22,7 +22,7 @@ class Users {
     }
 
     public function updateUserPassword($userId, $hashedPassword) {
-        $sql = "UPDATE users SET password = ? WHERE id = ?";
+        $sql = "UPDATE users SET password = ? WHERE user_id = ?";
         $stmt = $this->conn->prepare($sql);
 
         if (!$stmt) {

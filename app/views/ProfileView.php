@@ -2,6 +2,28 @@
 include_once "resources/includes/Sidebar.php";
 
 class ProfileView {
+
+    public function index($page, ...$args) {
+        switch ($page) {
+            case 'profile':
+                $pageTitle = "Профиль";
+                include 'resources/includes/header.php';
+                $this->renderProfile($args[0]);
+                break;
+            case 'changePasswordForm':
+                $pageTitle = "Смена пароля";
+                include 'resources/includes/header.php';
+                $this->renderChangePasswordForm($args[0], $args[1]);
+                break;
+            case 'allUsers':
+                $pageTitle = "Все пользователи";
+                include 'resources/includes/header.php';
+                // $this->displayAllUsers();
+                break;
+        }
+        
+        include 'resources/includes/footer.php';
+    }
     public function renderProfile($userData) {
         $output = (new Sidebar)->AddSidebarToProfile();
         $output .= '<div class="content">';
@@ -24,7 +46,7 @@ class ProfileView {
         echo $output . '
         <div class="content">';
         echo $message . '
-            <form action="" method="post">
+            <form action="changePassword" method="post">
                 <h2>Смена пароля</h2>
                 <label for="password">Новый пароль:</label>
                 <input type="password" id="password" name="password" required>

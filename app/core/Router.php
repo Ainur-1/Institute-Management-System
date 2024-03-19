@@ -50,22 +50,17 @@ class Router {
                 break;
 
             case '/profile':
-                $page = 'profile';
-                $controller = new ProfileController($db->conn);
-                $controller->index($page);
+                session_start();
+                (new ProfileController($db->conn))->displayProfile();
                 break;
 
             case '/changePasswordForm':
-                $page = 'changePasswordForm';
-                $controller = new ProfileController($db->conn);
-                $controller->index($page);
+                (new ProfileController($db->conn))->displayChangePasswordForm();
                 break;
 
-                case '/changePassword':
-                    $page = 'changePasswordForm';
-                    $controller = new ProfileController($db->conn);
-                    $controller->ChangePassword($_POST['userId'], $_POST['password'], $_POST['password1']);
-                    break;
+            case '/changePassword':
+                (new ProfileController($db->conn))->ChangePassword($_POST['userId'], $_POST['password'], $_POST['password1']);
+                break;
 
             case '/schedule':
                 $page = 'schedule';

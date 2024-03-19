@@ -11,30 +11,6 @@ class ProfileController {
         $this->view = new ProfileView();
     }
 
-    public function index($page) {
-        session_start();
-        
-        switch ($page) {
-            case 'profile':
-                $pageTitle = "Профиль";
-                include 'resources/includes/header.php';
-                $this->displayProfile();
-                break;
-            case 'changePasswordForm':
-                $pageTitle = "Смена пароля";
-                include 'resources/includes/header.php';
-                $this->displayChangePasswordForm();
-                break;
-            case 'changePassword':
-                $pageTitle = "Смена пароля";
-                include 'resources/includes/header.php';
-                $this->ChangePassword($userId, $newPassword, $Password1);
-                break;
-        }
-
-        include 'resources/includes/footer.php';
-    }
-
     public function displayProfile() {
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
             header("Location: /");
@@ -47,7 +23,7 @@ class ProfileController {
         $_SESSION['first_name'] = $userData['first_name']; 
         $_SESSION['last_name'] = $userData['last_name'];
         
-        $this->view->renderProfile($userData);
+        $this->view->index('profile', $userData);
     }
 
     public function displayChangePasswordForm() {
@@ -59,30 +35,31 @@ class ProfileController {
         $userData = $this->model->getUserInfo($username);
         $userId = $userData['user_id'];
 
-        $this->view->renderChangePasswordForm($userId);
+        $this->view->index('changePasswordForm', $userId);
     }
 
-    public function ChangePassword($userId, $newPassword, $password1) {
-        if ($newPassword !== $password1){
+    public function ChangePassword($userId, $newPasswordFirst, $newPasswordSecond) {
+        if ($newPasswordFirst === $newPasswordSecond){
+            if (strlen($newPasswordFirst) >= 8) {
+                $hashedPassword = password_hash($newPasswordFirst, PASSWORD_DEFAULT);
+                $success = $this->model->updateUserPassword($userId, $hashedPassword);
+
+                if ($success) {
+                    $message = "Пароль успешно изменен.";
+                } else {
+                    $message = "Произошла ошибка при изменении пароля. Пожалуйста, попробуйте еще раз.";
+                }
+            } else {
+                $message = "Новый пароль слишком короткий. Пароль должен содержать минимум 8 символов.";
+            }
+        } else {
             $message = "Пароли не совпадают!";
         }
-        if (strlen($newPassword) < 8) {
-            $message = "Новый пароль слишком короткий. Пароль должен содержать минимум 8 символов.";
-        }
 
-        // Хешируем новый пароль перед сохранением
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $this->view->index('profile', $userId, $message);
+    }
 
-        // Обновляем пароль пользователя в базе данных
-        $success = $this->model->updateUserPassword($userId, $hashedPassword);
-
-        if ($success) {
-            $message = "Пароль успешно изменен.";
-        } else {
-            $message = "Произошла ошибка при изменении пароля. Пожалуйста, попробуйте еще раз.";
-        }
+    public function displayAllUsers(){
         
-        $this->view->renderChangePasswordForm($userId, $message);
-
     }
 }
