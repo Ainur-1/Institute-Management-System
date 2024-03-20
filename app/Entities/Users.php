@@ -56,6 +56,9 @@ class Users {
             if(!$user_id){
                 throw new Exception("Ошибка при регистрации пользователя.");
             }
+            if ($role_id == 1) {
+                return "Добавление нового администратора запрещено!";
+            }
             if ($role_id == 2) {
                 $this->insertTeacher($user_id);
                 $this->conn->commit();

@@ -32,7 +32,7 @@ class ProfileView {
             case 'newUserForm':
                 $pageTitle = "Регистрация нового пользователя";
                 include 'resources/includes/header.php';
-                $this->displayNewUserForm($args[0]);
+                $this->displayNewUserForm(...$args);
                 break;
         }
         
@@ -136,11 +136,12 @@ class ProfileView {
         }
     }
 
-    public function displayNewUserForm($roles) {
+    public function displayNewUserForm($roles, $message = '') {
         $output = (new Sidebar)->AddSidebarToProfile();
         echo $output . '
-        <div class="content">
-        <form action="" method="post">
+        <div class="content">'
+        . $message .
+        '<form action="addUser" method="post">
             <h2>Регистрация</h2>
             <label for="username">Логин:</label>
             <input type="email" id="username" name="username" required>
@@ -161,7 +162,7 @@ class ProfileView {
             <label for="lastName">Фамилия:</label>
             <input type="text" id="lastName" name="lastName" required>
     
-            <input type="submit" name="addUser" value="Зарегистрировать">
+            <input type="submit" value="Зарегистрировать">
         </form>
         </div>
         ';

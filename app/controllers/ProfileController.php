@@ -84,6 +84,8 @@ class ProfileController {
     }
 
     public function AddUser() {
+        $message = '';
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -91,9 +93,11 @@ class ProfileController {
             $first_name = $_POST['firstName']; 
             $last_name = $_POST['lastName'];
 
-            echo $this->model->AddUser($username, $password, $role_id, $first_name, $last_name);
+            $message = $this->model->AddUser($username, $password, $role_id, $first_name, $last_name);
         } else {
-            echo 'Ошибка в заполнении формы!';
+            $message ='Ошибка в заполнении формы!';
         }
+
+        $this->view->index('newUserForm', $this->model->getRoles(), $message);
     }
 }
