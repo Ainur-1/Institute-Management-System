@@ -98,7 +98,7 @@ input[type="email"] {
 }
 
 input[type="submit"] {
-    background-color: #007bff;
+    background-color: #3E593C;
     color: #fff;
     padding: 0.5rem 1rem;
     border: none;
@@ -108,7 +108,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #FF6F3D;
 }
   
   /* Стили для боковой панели */
