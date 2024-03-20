@@ -5,6 +5,13 @@ include_once 'app/views/TasksView.php';
 class TasksController {
     private $model;
     private $view;
+    private $statuses = [
+        1 => 'Pending',         // Ожидание
+        2 => 'In Progress',     // В процессе
+        3 => 'Completed',       // Завершено
+        4 => 'On Hold',         // В ожидании
+        5 => 'Cancelled',       // Отменено
+    ];
 
     public function __construct($conn) {
         $this->model = new TasksModel($conn);
@@ -77,16 +84,15 @@ class TasksController {
             $this->model->insertIntoTasks($task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee);
         } else {
             $users = $this->model->selectAllFromTable("Users");
-            echo $this->view->renderAddNewTaskForm($users);
+            echo $this->view->renderAddNewTaskForm($users, $this->statuses);
         }
     }
     
     public function displayTaskEditForm($id) {
         $task = $this->model->getTaskFromId($id);
-        $tasks = $this->model->selectAllFromTable("Tasks");
         $users = $this->model->selectAllFromTable("Users");
 
-        $this->view->renderTaskEditForm($task, $tasks, $users);
+        $this->view->renderTaskEditForm($task, $this->statuses, $users);
     }
     
     public function deleteTask($task_id) {

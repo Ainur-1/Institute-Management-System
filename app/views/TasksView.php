@@ -80,21 +80,19 @@ class TasksView {
                         echo "<td><a href='/?action=deleteTask&id=". $row['task_id'] . "'>Удалить</a></td>";
                         echo "</tr>";
                     }; 
-                    echo '<tr>
-                            <td colspan="10"><a href="/addNewTask">Добавить новую задачу</a></td>
-                        </tr>
+                    echo '
                 </tbody>
             </table>
         </div>
         ';
     }
 
-    public function renderAddNewTaskForm($users) {
+    public function renderAddNewTaskForm($users, $statuses) {
         $output = (new Sidebar)->AddSidebarToTasks();
         echo $output . '
         <div class="edit-container content">
-            <h2>Добваление новой задачи</h2>
             <form action="" method="post">
+                <h2>Добваление новой задачи</h2>
                 <label for="task_name">Название:</label>
                 <input type="text" name="task_name" id="task_name" required>';
 
@@ -103,9 +101,9 @@ class TasksView {
 
             echo '<label for="task_status">Статус:</label>
                 <select name="task_status" id="task_name">';
-                    foreach ($users as $group) {
-                        echo '<option value="' . $group['group_id'] . '">' . $group['group_name'] . '</option>';
-                    }
+                foreach ($statuses as $num => $status) {
+                    echo '<option value="' . $num . '">' . $status . '</option>';
+                }
             echo '</select>
 
                 <label for="deadline">Крайний срок:</label>
@@ -131,46 +129,48 @@ class TasksView {
         ';
     }
 
-    public function renderTaskEditForm($task, $tasks, $users) {
+    public function renderTaskEditForm($task, $statuses, $users) {
         $output = (new Sidebar)->AddSidebarToTasks();
         echo $output . '
         <div class="edit-container content">
-            <h2>Редактирование задачи</h2>
             <form action="" method="post">
+                <h2>Редактирование задачи</h2>
                 <label for="task_name">Название:</label>
-                <input type="text" name="task_name" id="task_name" required>';
-
-            echo '<label for="task_text">Описание:</label>
-                <input type="text" name="task_text" id="task_text" required>';
-
-            echo '<label for="task_status">Статус:</label>
-                <select name="task_status" id="task_name">';
-                    foreach ($users as $group) {
-                        echo '<option value="' . $group['group_id'] . '">' . $group['group_name'] . '</option>';
+                <input type="text" name="task_name" id="task_name" required value="' . $task['task_name'] . '">
+    
+                <label for="task_text">Описание:</label>
+                <input type="text" name="task_text" id="task_text" required value="' . $task['task_text'] . '">
+    
+                <label for="task_status">Статус:</label>
+                <select name="task_status" id="task_status">';
+                    foreach ($statuses as $statusId => $statusName) {
+                        $selected = ($statusId == $task['task_status']) ? 'selected' : '';
+                        echo '<option value="' . $statusId . '" ' . $selected . '>' . $statusName . '</option>';
                     }
             echo '</select>
-
+    
                 <label for="deadline">Крайний срок:</label>
-                <input  type="date" name="deadline" id="deadline">';
-
-            echo '<label for="task_owner">Владелец:</label>
+                <input type="date" name="deadline" id="deadline" value="' . $task['deadline'] . '">
+    
+                <label for="task_owner">Владелец:</label>
                 <select name="task_owner" id="task_owner">';
                     foreach ($users as $user) {
-                        echo '<option value="' . $user['user_id'] . '">' . $user['first_name'] . ' ' . $user['last_name'] . '</option>';
+                        $selected = ($user['user_id'] == $task['task_owner']) ? 'selected' : '';
+                        echo '<option value="' . $user['user_id'] . '" ' . $selected . '>' . $user['first_name'] . ' ' . $user['last_name'] . '</option>';
                     }
             echo '</select>
-
+    
                 <label for="task_assignee">Исполнитель:</label>
                 <select name="task_assignee" id="task_assignee">';
                     foreach ($users as $user) {
-                        echo '<option value="' . $user['user_id'] . '">' . $user['first_name'] . ' ' . $user['last_name'] . '</option>';
+                        $selected = ($user['user_id'] == $task['task_assignee']) ? 'selected' : '';
+                        echo '<option value="' . $user['user_id'] . '" ' . $selected . '>' . $user['first_name'] . ' ' . $user['last_name'] . '</option>';
                     }
             echo '</select>
                 <br>
+                <input type="hidden" name="class_id" value="' . $task['task_id'] . '">
                 <input type="submit" name="add" value="Добавить">
             </form>
-        </div>    
-        ';
-    }
+        </div>';
+    }    
 }
-?>
