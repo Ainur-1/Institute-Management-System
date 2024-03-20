@@ -48,6 +48,10 @@ class ProfileController {
         $this->view->index('changePasswordForm', $this->userData['user_id']);
     }
 
+    public function displayNewUserForm() {
+        $this->view->index('newUserForm', $this->model->getRoles());
+    }
+
     public function ChangePassword($userId, $newPasswordFirst, $newPasswordSecond) {
         $message = '';
 
@@ -69,5 +73,19 @@ class ProfileController {
         }
 
         $this->view->index('changePasswordForm', $userId, $message);
+    }
+
+    public function AddUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $role_id = $_POST['role'];
+            $first_name = $_POST['firstName']; 
+            $last_name = $_POST['lastName'];
+
+            echo $this->model->AddUser($username, $password, $role_id, $first_name, $last_name);
+        } else {
+            echo 'Ошибка в заполнении формы!';
+        }
     }
 }

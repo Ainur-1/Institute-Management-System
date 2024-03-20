@@ -8,7 +8,7 @@ class Sidebar {
                 <h3>Управление пользователями</h3>
                 <a href="/allUsers" class="button">Все пользователи</a>
                 <a href="/editUsers" class="button">Редактирование пользователей</a>
-                <a href="/newUserRegistration" class="button">Новый пользователь</a>
+                <a href="/newUser" class="button">Новый пользователь</a>
             </div>
             ';
         } else return '';   

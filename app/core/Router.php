@@ -11,6 +11,7 @@ class Router {
         include 'app/controllers/TasksController.php';
         include "app/core/Database.php";
         include 'app/Entities/Users.php';
+        include 'app/Entities/Roles.php';
 
         $db = new Database();
         
@@ -69,6 +70,14 @@ class Router {
                 (new ProfileController($db->conn))->displayAllUsersEditor();
                 break;
 
+            case '/newUser':
+                (new ProfileController($db->conn))->displayNewUserForm();
+                break;
+
+            case '/addUser':
+                (new ProfileController($db->conn))->AddUser();
+                break;
+
             case '/schedule':
                 $page = 'schedule';
                 $controller = new ScheduleController($db->conn);
@@ -109,11 +118,6 @@ class Router {
                 $page = 'addNewTask';
                 $controller = new TasksController($db->conn);
                 $controller->index($page);
-                break;  
-
-            case '/newUserRegistration':
-                $controller = new RegisterController($db->conn);
-                $controller->index();
                 break;
 
             default:
