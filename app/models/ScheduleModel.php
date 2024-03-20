@@ -162,5 +162,21 @@ class ScheduleModel extends BaseModel {
         $success = $stmt->execute();
     
         return $success;
+    }
+
+    public function AddSubject($subject_name) {
+        $sql = 'INSERT INTO Subjects (subject_name) VALUES (?)';
+        $stmt = $this->conn->prepare($sql);
+    
+        if (!$stmt) {
+            throw new Exception("Ошибка подготовки запроса для Subjects: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param("s", $subject_name);
+    
+        if ($stmt->execute() && $stmt->affected_rows > 0) {
+            return $stmt->insert_id;
+        }
+        return false;
     }    
 }

@@ -167,7 +167,7 @@ class ScheduleView {
         echo $output . '
         <div class="edit-container content">
             <h2>Добваление нового предмета</h2>
-            <form action="" method="post">
+            <form action="addSubject" method="post">
         
                 <label for="subject">Предмет:</label>
                 <input type="text" id="subject" name="subject" required>

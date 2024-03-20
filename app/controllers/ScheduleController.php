@@ -97,6 +97,15 @@ class ScheduleController {
         $this->view->renderAddSubjectForm();
     }
 
+    public function AddSubject() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->model->AddSubject($_POST['subject']);
+
+            header("Location: /editSchedule"); 
+            exit();
+        }
+    }
+
     public function EditClass(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $class_id = $_POST['class_id'];
