@@ -52,6 +52,13 @@ class ProfileController {
         $this->view->index('newUserForm', $this->model->getRoles());
     }
 
+    public function displayEditUserForm() {
+        if (isset($_GET['id'])) {
+            $user = $this->model->getUserInfo($_GET['id']);
+            $this->view->index('displayEditUserForm', $user);
+        }
+    }
+
     public function ChangePassword() {
         $message = '';
         
@@ -101,12 +108,27 @@ class ProfileController {
         $this->view->index('newUserForm', $this->model->getRoles(), $message);
     }
 
+    public function EditUser() {
+        $message = '';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['user_id'];
+            $first_name = $_POST['firstName']; 
+            $last_name = $_POST['lastName'];
+
+            $message = $this->model->UpdateUser($id, $first_name, $last_name);
+        } else {
+            $message ='Ошибка в заполнении формы!';
+        }
+
+        $this->displayAllUsersEditor($message);
+    }
+
     public function DeleteUser() {
         $message = '';
 
         if (isset($_GET['id'])) {
-            $this->model->DeleteUser($_GET['id']);
-            $message = 'Успешно!';
+            $message = $this->model->DeleteUser($_GET['id']);
         } else {
             $message = 'Ошибка удаления пользователя';
         }

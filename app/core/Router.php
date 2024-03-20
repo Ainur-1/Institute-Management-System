@@ -19,11 +19,8 @@ class Router {
                 case 'deleteUser':
                     (new ProfileController($db->conn))->DeleteUser();
                     break;
-                case 'editUser':                    
-                    if (isset($_GET['id'])) {
-                        $controller = new ProfileController($db->conn);
-                        // $controller->editUser($_GET['id']);
-                    }
+                case 'editUserForm':                    
+                    (new ProfileController($db->conn))->displayEditUserForm();
                     break;
                 case 'deleteClass':
                     if (isset($_GET['id'])) {
@@ -84,6 +81,10 @@ class Router {
 
             case '/addUser':
                 (new ProfileController($db->conn))->AddUser();
+                break;
+
+            case '/editUser':
+                (new ProfileController($db->conn))->EditUser();
                 break;
 
             case '/schedule':

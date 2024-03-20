@@ -10,8 +10,12 @@ class ProfileModel {
         $this->roles = new Roles($this->conn);
     }
 
-    public function getUserInfo($username) {
-        return $this->users->getUserByEmail($username);
+    public function getUserInfo($user) {
+        if (strpos($user, '@') !== false) {
+            return $this->users->getUserByEmail($user);
+        } else {
+            return $this->users->getUserById($user);
+        }  
     }
 
     public function getAllUsers() {
@@ -20,6 +24,10 @@ class ProfileModel {
 
     public function getRoles() {
         return $this->roles->getRoles();
+    }
+
+    public function UpdateUser($id, $first_name, $last_named) {
+        return $this->users->UpdateUser($id, $first_name, $last_named);
     }
 
     public function updateUserPassword($userId, $hashedPassword) {

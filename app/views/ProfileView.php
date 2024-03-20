@@ -34,6 +34,11 @@ class ProfileView {
                 include 'resources/includes/header.php';
                 $this->displayNewUserForm(...$args);
                 break;
+            case 'displayEditUserForm':
+                $pageTitle = "Редактирование пользователя";
+                include 'resources/includes/header.php';
+                $this->displayEditUserForm(...$args);
+                break;
         }
         
         include 'resources/includes/footer.php';
@@ -125,7 +130,7 @@ class ProfileView {
                     echo "<td>" . $user['first_name'] . "</td>";
                     echo "<td>" . $user['last_name'] . "</td>";
                     echo "<td>" . $user['role_id'] . "</td>";
-                    echo "<td><a href='/?action=editUser&id=". $user['user_id'] . "'>Изменить</a></td>";
+                    echo "<td><a href='/?action=editUserForm&id=". $user['user_id'] . "'>Изменить</a></td>";
                     echo "<td><a href='/?action=deleteUser&id=". $user['user_id'] . "'>Удалить</a></td>";
                     echo "</tr>";
                 }
@@ -167,5 +172,29 @@ class ProfileView {
         </form>
         </div>
         ';
+    }
+
+    public function displayEditUserForm($user) {
+        $output = (new Sidebar)->AddSidebarToProfile();
+        
+        $output .= '
+        <div class="content">
+        <form action="editUser" method="post">
+            <h2>Редактирование пользователя</h2>
+
+            <label for="firstName">Имя:</label>
+            <input type="text" id="firstName" name="firstName" value="' . htmlspecialchars($user['first_name']) . '" required>
+    
+            <label for="lastName">Фамилия:</label>
+            <input type="text" id="lastName" name="lastName" value="' . htmlspecialchars($user['last_name']) . '" required>
+    
+            <input type="hidden" name="user_id" value="' . $user['user_id'] . '"> 
+    
+            <input type="submit" value="Сохранить">
+        </form>
+        </div>
+        ';
+
+        echo $output;
     }
 }

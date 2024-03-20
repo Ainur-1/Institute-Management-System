@@ -19,6 +19,20 @@ class Users {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getUserById($id) {
+        $sql = "SELECT * FROM Users WHERE user_id=?";
+        $stmt = $this->conn->prepare($sql);
+
+        if (!$stmt) {
+            die("Ошибка подготовки запроса: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
     public function getUserByEmail($email) {
         $email = mysqli_real_escape_string($this->conn, $email);
         $sql = "SELECT * FROM Users WHERE email=?";
@@ -33,6 +47,20 @@ class Users {
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
+    public function UpdateUser($userId, $first_name, $last_name) {
+        $sql = "UPDATE users SET first_name = ?, last_name = ? WHERE user_id = ?";
+        $stmt = $this->conn->prepare($sql);
+    
+        if (!$stmt) {
+            die("Ошибка подготовки запроса: " . $this->conn->error);
+        }   
+    
+        $stmt->bind_param("ssi", $first_name, $last_name, $userId);
+        $success = $stmt->execute();
+    
+        return $success;
+    }    
 
     public function updateUserPassword($userId, $hashedPassword) {
         $sql = "UPDATE users SET password = ? WHERE user_id = ?";
@@ -132,17 +160,6 @@ class Users {
     
             $deleteUserStmt->bind_param("i", $id);
             $deleteUserSuccess = $deleteUserStmt->execute();
-    
-            if (!$deleteUserSuccess) {
-                throw new Exception("Ошибка при удалении пользователя из таблицы Users: " . $deleteUserStmt->error);
-            }
-
-            if ($deleteUserStmt->affected_rows === 0) {
-                throw new Exception("Пользователь с ID $id не найден в базе данных.");
-            }
-    
-            // Delete related records from other tables (e.g., Teachers, Students) if necessary
-            // You may need additional logic to handle cascading deletions or foreign key constraints
     
             $this->conn->commit();
             return "Пользователь успешно удален.";
