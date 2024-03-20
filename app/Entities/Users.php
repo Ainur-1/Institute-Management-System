@@ -151,6 +151,7 @@ class Users {
         try {
             $this->conn->begin_transaction();
     
+            // Удаляем пользователя из таблицы users
             $deleteUserSql = "DELETE FROM users WHERE user_id = ?";
             $deleteUserStmt = $this->conn->prepare($deleteUserSql);
     
@@ -161,12 +162,33 @@ class Users {
             $deleteUserStmt->bind_param("i", $id);
             $deleteUserSuccess = $deleteUserStmt->execute();
     
+            // Удаляем связанные записи из таблицы students
+            $deleteStudentSql = "DELETE FROM students WHERE user_id = ?";
+            $deleteStudentStmt = $this->conn->prepare($deleteStudentSql);
+    
+            if (!$deleteStudentStmt) {
+                throw new Exception("Ошибка подготовки запроса для удаления связанных записей в таблице students: " . $this->conn->error);
+            }
+    
+            $deleteStudentStmt->bind_param("i", $id);
+            $deleteStudentSuccess = $deleteStudentStmt->execute();
+    
+            // Удаляем связанные записи из таблицы teachers
+            $deleteTeacherSql = "DELETE FROM teachers WHERE user_id = ?";
+            $deleteTeacherStmt = $this->conn->prepare($deleteTeacherSql);
+    
+            if (!$deleteTeacherStmt) {
+                throw new Exception("Ошибка подготовки запроса для удаления связанных записей в таблице teachers: " . $this->conn->error);
+            }
+    
+            $deleteTeacherStmt->bind_param("i", $id);
+            $deleteTeacherSuccess = $deleteTeacherStmt->execute();
+    
             $this->conn->commit();
             return "Пользователь успешно удален.";
         } catch (Exception $e) {
             $this->conn->rollback();
             return $e->getMessage();
         }
-    }
-    
+    }    
 }
