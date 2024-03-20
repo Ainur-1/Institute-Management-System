@@ -6,7 +6,6 @@ class Router {
 
         include 'app/controllers/AuthenticateController.php';
         include 'app/controllers/ProfileController.php';
-        include 'app/controllers/RegisterController.php';
         include 'app/controllers/ScheduleController.php';
         include 'app/controllers/TasksController.php';
         include "app/core/Database.php";
@@ -59,7 +58,7 @@ class Router {
                 break;
 
             case '/changePassword':
-                (new ProfileController($db->conn))->ChangePassword($_POST['userId'], $_POST['password'], $_POST['password1']);
+                (new ProfileController($db->conn))->ChangePassword();
                 break;
 
             case '/allUsers':

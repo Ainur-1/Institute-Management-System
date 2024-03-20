@@ -52,8 +52,16 @@ class ProfileController {
         $this->view->index('newUserForm', $this->model->getRoles());
     }
 
-    public function ChangePassword($userId, $newPasswordFirst, $newPasswordSecond) {
+    public function ChangePassword() {
         $message = '';
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['userId']; 
+            $newPasswordFirst = $_POST['password'];
+            $newPasswordSecond = $_POST['password1'];
+        } else {
+            $message = 'Ошибка в заполнении формы!';
+        }
 
         if ($newPasswordFirst === $newPasswordSecond){
             if (strlen($newPasswordFirst) >= 8) {
