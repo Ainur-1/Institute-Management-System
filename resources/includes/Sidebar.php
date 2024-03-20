@@ -6,8 +6,9 @@ class Sidebar {
             return '
             <div class="sidebar">
                 <h3>Управление пользователями</h3>
-                <a href="/newUserRegistration" class="button">Зарегистрировать нового пользователя</a>
                 <a href="/allUsers" class="button">Все пользователи</a>
+                <a href="/editUsers" class="button">Редактирование пользователей</a>
+                <a href="/newUserRegistration" class="button">Новый пользователь</a>
             </div>
             ';
         } else return '';   

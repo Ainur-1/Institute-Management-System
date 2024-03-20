@@ -64,6 +64,10 @@ class Router {
             case '/allUsers':
                 (new ProfileController($db->conn))->displayAllUsers();
                 break;
+            
+            case '/editUsers':
+                (new ProfileController($db->conn))->displayAllUsersEditor();
+                break;
 
             case '/schedule':
                 $page = 'schedule';

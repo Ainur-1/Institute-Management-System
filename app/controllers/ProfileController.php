@@ -40,6 +40,10 @@ class ProfileController {
         $this->view->index('allUsers', $this->model->getAllUsers());
     }
 
+    public function displayAllUsersEditor() {
+        $this->view->index('editUsers', $this->model->getAllUsers());
+    }
+
     public function displayChangePasswordForm() {
         $this->view->index('changePasswordForm', $this->userData['user_id']);
     }
