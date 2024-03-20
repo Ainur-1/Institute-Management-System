@@ -77,7 +77,7 @@ class ScheduleController {
         } else {
             $subjects = $this->model->selectAllFromTable("Subjects");
             $groups = $this->model->selectAllFromTable("StudentGroups");
-            $teachers = $this->model->selectAllFromTable("Teachers");
+            $teachers = $this->model->selectAllTeachers();
             $classTimes = $this->model->selectAllFromTable("ClassTimes"); 
             echo $this->view->renderAddNewClassForm($subjects, $groups, $this->dayOfWeekNames, $teachers, $classTimes);
         }
@@ -87,17 +87,31 @@ class ScheduleController {
         $class = $this->model->getClassFromId($id);
         $subjects = $this->model->selectAllFromTable("Subjects");
         $groups = $this->model->selectAllFromTable("StudentGroups");
-        $teachers = $this->model->selectAllFromTable("Teachers");
+        $teachers = $this->model->selectAllTeachers();
         $classTimes = $this->model->selectAllFromTable("ClassTimes"); 
 
         $this->view->renderClassEditForm($class, $subjects, $groups, $this->dayOfWeekNames, $teachers, $classTimes);
     }
 
     public function displayAddSubjectForm() { 
-        $this->view->renderClassSubjectForm();
+        $this->view->renderAddSubjectForm();
     }
 
-    
+    public function EditClass(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $class_id = $_POST['class_id'];
+            $subject_id = $_POST['subject'];
+            $group_id = $_POST['group'];
+            $teacher_id = $_POST['teacher'];
+            $day_of_week = $_POST['day'];
+            $class_time_id = $_POST['classStartTime'];
+                        
+            $this->model->UpdateClass($class_id, $subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id);
+
+            header("Location: /editSchedule"); 
+            exit();
+        }
+    }
 
     public function deleteClass($schedule_id) {
         $this->model->deleteClass($schedule_id);
@@ -105,4 +119,3 @@ class ScheduleController {
         exit();
     }
 }
-?>

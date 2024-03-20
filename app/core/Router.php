@@ -104,6 +104,10 @@ class Router {
                 $controller = new ScheduleController($db->conn);
                 $controller->index($page);
                 break;
+
+            case '/editClass':
+                (new ScheduleController($db->conn))->EditClass();
+                break;
             
             case '/addNewSubject':
                 $page = 'addNewSubject';

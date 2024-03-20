@@ -59,9 +59,7 @@ class ScheduleView {
                         echo "<td><a href='/?action=deleteClass&id=". $row['schedule_id'] . "'>Удалить</a></td>";
                         echo "</tr>";
                     };
-                    echo '<tr>
-                            <td colspan="10"><a href="/addNewClass">Добавить новое занятие</a></td>
-                        </tr> 
+                    echo ' 
                 </tbody>
             </table>
         </div>
@@ -120,9 +118,8 @@ class ScheduleView {
         $output = (new Sidebar)->AddSidebarToSchedule();
         echo $output . '
         <div class="edit-container content">
-            <h2>Добваление нового занятия</h2>
-            <form action="" method="post">
-        
+            <form action="editClass" method="post">
+                <h2>Редактирование занятия</h2>
                 <label for="subject">Предмет:</label>
                 <select name="subject" id="subject">';
                     foreach ($subjects as $subject) {
@@ -159,12 +156,13 @@ class ScheduleView {
                     }
             echo '</select>
                 <br>
-                <input type="submit" value="Добавить">
+                <input type="hidden" name="class_id" value="' . $class['schedule_id'] . '">
+                <input type="submit" value="Изменить">
             </form>
         </div>';
     }
 
-    public function renderClassSubjectForm() {
+    public function renderAddSubjectForm() {
         $output = (new Sidebar)->AddSidebarToSchedule();
         echo $output . '
         <div class="edit-container content">

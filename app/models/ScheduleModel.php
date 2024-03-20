@@ -125,6 +125,42 @@ class ScheduleModel extends BaseModel {
     
         $stmt->close();
     }
+
+    public function selectAllTeachers(){
+        $sql = '
+        SELECT 
+	        users.user_id,
+            teachers.teacher_id,
+            users.first_name,
+            users.last_name
+        FROM users
+        RIGHT JOIN teachers ON users.user_id = teachers.user_id;
+        ';
+        return $this->executeSelectQuery($sql);
+    }
     
+    public function UpdateClass($class_id, $group_id, $teacher_id, $day_of_week, $subject_id, $class_time_id) {   
+        $sql = "
+            UPDATE 
+                schedule 
+            SET 
+                group_id = ?,
+                teacher_id = ?,
+                day_of_week = ?,
+                subject_id = ?,
+                class_time_id = ?
+            WHERE 
+                schedule_id = ?
+            ";
+        $stmt = $this->conn->prepare($sql);
+    
+        if (!$stmt) {
+            die("Ошибка подготовки запроса: " . $this->conn->error);
+        }   
+    
+        $stmt->bind_param("iiiiii", $group_id, $teacher_id, $day_of_week, $subject_id, $class_time_id, $class_id);
+        $success = $stmt->execute();
+    
+        return $success;
+    }    
 }
-?>
