@@ -16,6 +16,15 @@ class Router {
         
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
             switch ($_GET['action']) {
+                case 'deleteUser':
+                    (new ProfileController($db->conn))->DeleteUser();
+                    break;
+                case 'editUser':                    
+                    if (isset($_GET['id'])) {
+                        $controller = new ProfileController($db->conn);
+                        // $controller->editUser($_GET['id']);
+                    }
+                    break;
                 case 'deleteClass':
                     if (isset($_GET['id'])) {
                         $controller = new ScheduleController($db->conn);

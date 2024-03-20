@@ -73,49 +73,83 @@ class Users {
             $this->conn->rollback();
             return $e->getMessage();
         }
+    }
+
+    private function insertUser($first_name, $last_name, $email, $password, $role_id) {
+        $sql = "INSERT INTO Users (first_name, last_name, email, password, role_id) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+    
+        if (!$stmt) {
+            throw new Exception("Ошибка подготовки запроса для Users: " . $this->conn->error);
+        }
+    
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bind_param("ssssi", $first_name, $last_name, $email, $hashedPassword, $role_id);
+    
+        if ($stmt->execute() && $stmt->affected_rows > 0) {
+            // Получение последнего вставленного user_id
+            return $stmt->insert_id;
+        }
+        return false;
+    }
+    
+    private function insertTeacher($user_id) {
+        $sql = "INSERT INTO Teachers (user_id) VALUES (?)";
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            throw new Exception("Ошибка подготовки запроса для Teachers: " . $this->conn->error);
         }
 
-        private function insertUser($first_name, $last_name, $email, $password, $role_id) {
-            $sql = "INSERT INTO Users (first_name, last_name, email, password, role_id) VALUES (?, ?, ?, ?, ?)";
-            $stmt = $this->conn->prepare($sql);
-        
-            if (!$stmt) {
-                throw new Exception("Ошибка подготовки запроса для Users: " . $this->conn->error);
-            }
-        
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $stmt->bind_param("ssssi", $first_name, $last_name, $email, $hashedPassword, $role_id);
-        
-            if ($stmt->execute() && $stmt->affected_rows > 0) {
-                // Получение последнего вставленного user_id
-                return $stmt->insert_id;
-            }
-            return false;
+        $stmt->bind_param("i", $user_id);
+        if (!$stmt->execute() || $stmt->affected_rows < 0) {
+            throw new Exception("Ошибка при добавлении новой строки в таблицу Teachers: " . $stmt->error);
         }
+    }
     
-        private function insertTeacher($user_id) {
-            $sql = "INSERT INTO Teachers (user_id) VALUES (?)";
-            $stmt = $this->conn->prepare($sql);
-            if (!$stmt) {
-                throw new Exception("Ошибка подготовки запроса для Teachers: " . $this->conn->error);
-            }
-    
-            $stmt->bind_param("i", $user_id);
-            if (!$stmt->execute() || $stmt->affected_rows < 0) {
-                throw new Exception("Ошибка при добавлении новой строки в таблицу Teachers: " . $stmt->error);
-            }
+    private function insertStudents($user_id, $group_id) {
+        $sql = "INSERT INTO Students (user_id, group_id) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            throw new Exception("Ошибка подготовки запроса для Students: " . $this->conn->error);
         }
-    
-        private function insertStudents($user_id, $group_id) {
-            $sql = "INSERT INTO Students (user_id, group_id) VALUES (?, ?)";
-            $stmt = $this->conn->prepare($sql);
-            if (!$stmt) {
-                throw new Exception("Ошибка подготовки запроса для Students: " . $this->conn->error);
-            }
-    
-            $stmt->bind_param("ii", $user_id, $group_id);
-            if (!$stmt->execute() || $stmt->affected_rows < 0) {
-                throw new Exception("Ошибка при добавлении новой строки в таблицу Students: " . $stmt->error);
-            }
+
+        $stmt->bind_param("ii", $user_id, $group_id);
+        if (!$stmt->execute() || $stmt->affected_rows < 0) {
+            throw new Exception("Ошибка при добавлении новой строки в таблицу Students: " . $stmt->error);
         }
+    }
+
+    public function DeleteUser($id) {
+        try {
+            $this->conn->begin_transaction();
+    
+            $deleteUserSql = "DELETE FROM users WHERE user_id = ?";
+            $deleteUserStmt = $this->conn->prepare($deleteUserSql);
+    
+            if (!$deleteUserStmt) {
+                throw new Exception("Ошибка подготовки запроса для удаления пользователя: " . $this->conn->error);
+            }
+    
+            $deleteUserStmt->bind_param("i", $id);
+            $deleteUserSuccess = $deleteUserStmt->execute();
+    
+            if (!$deleteUserSuccess) {
+                throw new Exception("Ошибка при удалении пользователя из таблицы Users: " . $deleteUserStmt->error);
+            }
+
+            if ($deleteUserStmt->affected_rows === 0) {
+                throw new Exception("Пользователь с ID $id не найден в базе данных.");
+            }
+    
+            // Delete related records from other tables (e.g., Teachers, Students) if necessary
+            // You may need additional logic to handle cascading deletions or foreign key constraints
+    
+            $this->conn->commit();
+            return "Пользователь успешно удален.";
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            return $e->getMessage();
+        }
+    }
+    
 }

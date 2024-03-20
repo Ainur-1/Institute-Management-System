@@ -40,8 +40,8 @@ class ProfileController {
         $this->view->index('allUsers', $this->model->getAllUsers());
     }
 
-    public function displayAllUsersEditor() {
-        $this->view->index('editUsers', $this->model->getAllUsers());
+    public function displayAllUsersEditor($message = '') {
+        $this->view->index('editUsers', $this->model->getAllUsers(), $message);
     }
 
     public function displayChangePasswordForm() {
@@ -99,5 +99,18 @@ class ProfileController {
         }
 
         $this->view->index('newUserForm', $this->model->getRoles(), $message);
+    }
+
+    public function DeleteUser() {
+        $message = '';
+
+        if (isset($_GET['id'])) {
+            $this->model->DeleteUser($_GET['id']);
+            $message = 'Успешно!';
+        } else {
+            $message = 'Ошибка удаления пользователя';
+        }
+
+        $this->displayAllUsersEditor($message);
     }
 }

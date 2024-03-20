@@ -29,4 +29,8 @@ class ProfileModel {
     public function AddUser($username, $password, $role_id, $first_name, $last_name) {
         return $this->users->AddUser($username, $password, $role_id, $first_name, $last_name);
     }
+
+    public function DeleteUser($id) {
+        return $this->users->DeleteUser($id);
+    }
 }

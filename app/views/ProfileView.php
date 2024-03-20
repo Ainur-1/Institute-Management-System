@@ -27,7 +27,7 @@ class ProfileView {
             case 'editUsers':
                 $pageTitle = "Редактирование пользователей";
                 include 'resources/includes/header.php';
-                $this->displayAllUsersEditor($args[0]);
+                $this->displayAllUsersEditor(...$args);
                 break;
             case 'newUserForm':
                 $pageTitle = "Регистрация нового пользователя";
@@ -104,11 +104,12 @@ class ProfileView {
         }
     }
     
-    public function displayAllUsersEditor($users) {
+    public function displayAllUsersEditor($users, $message = '') {
         if ($users) {
             echo $this->sidebar . '
-            <div class="content">
-                <table border="1">
+            <div class="content">'
+            . $message .
+                '<table border="1">
                     <tr>
                         <th>ID</th>
                         <th>Логин</th>
