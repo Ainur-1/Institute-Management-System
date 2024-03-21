@@ -123,21 +123,24 @@ class ScheduleView {
                 <label for="subject">Предмет:</label>
                 <select name="subject" id="subject">';
                     foreach ($subjects as $subject) {
-                        echo '<option value="' . $subject['subject_id'] . '">' . $subject['subject_name'] . '</option>';
+                        $selected = ($subject['subject_id'] == $class['subject_id']) ? 'selected' : '';
+                        echo '<option value="' . $subject['subject_id'] . '"' . $selected . '>' . $subject['subject_name'] . '</option>';
                     }
             echo '</select>
         
                 <label for="group">Группа:</label>
                 <select name="group" id="group">';
                     foreach ($groups as $group) {
-                        echo '<option value="' . $group['group_id'] . '">' . $group['group_name'] . '</option>';
+                        $selected = ($group['group_id'] == $class['group_id']) ? 'selected' : '';
+                        echo '<option value="' . $group['group_id'] . '"' . $selected . '>' . $group['group_name'] . '</option>';
                     }
             echo '</select>
         
                 <label for="teacher">Преподаватель:</label>
                 <select name="teacher" id="teacher">';
                     foreach ($teachers as $teacher) {
-                        echo '<option value="' . $teacher['teacher_id'] . '">' . $teacher['first_name'] 
+                        $selected = ($teacher['teacher_id'] == $class['teacher_id']) ? 'selected' : '';
+                        echo '<option value="' . $teacher['teacher_id'] . '"' . $selected . '>' . $teacher['first_name'] 
                             . ' ' . $teacher['last_name'] .'</option>';
                         }
             echo '</select>
@@ -145,14 +148,16 @@ class ScheduleView {
                 <label for="day">День недели:</label>
                 <select name="day" id="day">';
                     foreach ($dayOfWeekNames as $num => $day) {
-                        echo '<option value="' . $num . '">' . $day . '</option>';
+                        $selected = ($num == $class['day_of_week']) ? 'selected' : '';
+                        echo '<option value="' . $num . '"' . $selected . '>' . $day . '</option>';
                     }
             echo '</select>
                 
                 <label for="classStartTime">Время начала:</label>
                 <select name="classStartTime" id="classStartTime">';
                     foreach ($classTimes as $classTime) {
-                        echo '<option value="' . $classTime['class_time_id'] . '">' . $classTime['start_time'] . '</option>';
+                        $selected = ($classTime['class_time_id'] == $class['class_time_id']) ? 'selected' : '';
+                        echo '<option value="' . $classTime['class_time_id'] . $selected . '>' . $classTime['start_time'] . '</option>';
                     }
             echo '</select>
                 <br>
