@@ -150,39 +150,37 @@ class Users {
     public function DeleteUser($id) {
         try {
             $this->conn->begin_transaction();
-    
-            // Удаляем пользователя из таблицы users
+
+            $user = $this->getUserById($id);
+
+            switch ($user['role_id']) {
+                case 2:
+                    $result = (new Teachers($this->conn))->DeleteTeacher($id);
+                    break;
+                case 3:
+                    $result = (new Students($this->conn))->DeleteStudent($id);
+                    break;
+                default:
+                    throw new Exception('Ошибка при определении роли!');
+            }
+
+            if (!$result) {
+                throw new Exception("Ошибка при удалении пользователя.");
+            }
+
             $deleteUserSql = "DELETE FROM users WHERE user_id = ?";
             $deleteUserStmt = $this->conn->prepare($deleteUserSql);
-    
+        
             if (!$deleteUserStmt) {
                 throw new Exception("Ошибка подготовки запроса для удаления пользователя: " . $this->conn->error);
             }
-    
+        
             $deleteUserStmt->bind_param("i", $id);
             $deleteUserSuccess = $deleteUserStmt->execute();
-    
-            // Удаляем связанные записи из таблицы students
-            $deleteStudentSql = "DELETE FROM students WHERE user_id = ?";
-            $deleteStudentStmt = $this->conn->prepare($deleteStudentSql);
-    
-            if (!$deleteStudentStmt) {
-                throw new Exception("Ошибка подготовки запроса для удаления связанных записей в таблице students: " . $this->conn->error);
+            
+            if (!$deleteUserSuccess) {
+                throw new Exception("Ошибка при выполнении запроса на удаление пользователя: " . $deleteUserStmt->error);
             }
-    
-            $deleteStudentStmt->bind_param("i", $id);
-            $deleteStudentSuccess = $deleteStudentStmt->execute();
-    
-            // Удаляем связанные записи из таблицы teachers
-            $deleteTeacherSql = "DELETE FROM teachers WHERE user_id = ?";
-            $deleteTeacherStmt = $this->conn->prepare($deleteTeacherSql);
-    
-            if (!$deleteTeacherStmt) {
-                throw new Exception("Ошибка подготовки запроса для удаления связанных записей в таблице teachers: " . $this->conn->error);
-            }
-    
-            $deleteTeacherStmt->bind_param("i", $id);
-            $deleteTeacherSuccess = $deleteTeacherStmt->execute();
     
             $this->conn->commit();
             return "Пользователь успешно удален.";

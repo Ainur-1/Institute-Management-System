@@ -11,6 +11,8 @@ class Router {
         include "app/core/Database.php";
         include 'app/Entities/Users.php';
         include 'app/Entities/Roles.php';
+        include 'app/Entities/Students.php';
+        include 'app/Entities/Teachers.php';
 
         $db = new Database();
         
