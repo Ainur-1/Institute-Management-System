@@ -70,8 +70,8 @@ class ScheduleView {
         $output = (new Sidebar)->AddSidebarToSchedule();
         echo $output . '
         <div class="edit-container content">
-            <h2>Добваление нового занятия</h2>
             <form action="" method="post">
+                <h2>Добваление нового занятия</h2>
         
                 <label for="subject">Предмет:</label>
                 <select name="subject" id="subject">';
@@ -157,7 +157,7 @@ class ScheduleView {
                 <select name="classStartTime" id="classStartTime">';
                     foreach ($classTimes as $classTime) {
                         $selected = ($classTime['class_time_id'] == $class['class_time_id']) ? 'selected' : '';
-                        echo '<option value="' . $classTime['class_time_id'] . $selected . '>' . $classTime['start_time'] . '</option>';
+                        echo '<option value="' . $classTime['class_time_id'] . '"' . $selected . '>' . $classTime['start_time'] . '</option>';
                     }
             echo '</select>
                 <br>
@@ -171,8 +171,8 @@ class ScheduleView {
         $output = (new Sidebar)->AddSidebarToSchedule();
         echo $output . '
         <div class="edit-container content">
-            <h2>Добваление нового предмета</h2>
             <form action="addSubject" method="post">
+                <h2>Добваление нового предмета</h2>
         
                 <label for="subject">Предмет:</label>
                 <input type="text" id="subject" name="subject" required>

@@ -115,7 +115,7 @@ class ScheduleController {
             $day_of_week = $_POST['day'];
             $class_time_id = $_POST['classStartTime'];
                         
-            $this->model->UpdateClass($class_id, $subject_id, $group_id, $teacher_id, $day_of_week, $class_time_id);
+            $this->model->UpdateClass($class_id, $group_id, $teacher_id, $day_of_week, $subject_id, $class_time_id);
 
             header("Location: /editSchedule"); 
             exit();
