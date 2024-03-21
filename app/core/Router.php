@@ -125,12 +125,16 @@ class Router {
                 $controller->index($page);
                 break;
 
+            case '/editTask':
+                (new TasksController($db->conn))->EditTask();
+                break;
+
             case '/editTasks':
                 $page = 'editTasks';
                 $controller = new TasksController($db->conn);
                 $controller->index($page);
                 break;
-            
+        
             case '/addNewTask':
                 $page = 'addNewTask';
                 $controller = new TasksController($db->conn);

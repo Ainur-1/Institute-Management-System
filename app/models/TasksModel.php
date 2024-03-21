@@ -72,7 +72,7 @@ class TasksModel extends BaseModel {
             die("Ошибка подготовки запроса" . $this->conn->error);
         }
 
-        $stmt->bind_param("ssisii", $task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee);
+        $stmt->bind_param("ssssii", $task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee);
 
         if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {
@@ -124,5 +124,30 @@ class TasksModel extends BaseModel {
     
         $stmt->close();
     }
+
+    public function UpdateTask($task_id, $task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee) {
+        $sql = "
+        UPDATE 
+            tasks 
+        SET 
+            task_name = ?,
+            task_text = ?,
+            task_status = ?,
+            deadline = ?,
+            task_owner = ?,
+            task_assignee = ?
+        WHERE 
+            task_id = ?
+        ";
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+        die("Ошибка подготовки запроса: " . $this->conn->error);
+    }   
+
+    $stmt->bind_param("ssssiii", $task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee, $task_id);
+    $success = $stmt->execute();
+
+    return $success;
+    }
 }
-?>

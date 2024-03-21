@@ -102,7 +102,7 @@ class TasksView {
             echo '<label for="task_status">Статус:</label>
                 <select name="task_status" id="task_name">';
                 foreach ($statuses as $num => $status) {
-                    echo '<option value="' . $num . '">' . $status . '</option>';
+                    echo '<option value="' . $status . '">' . $status . '</option>';
                 }
             echo '</select>
 
@@ -133,7 +133,7 @@ class TasksView {
         $output = (new Sidebar)->AddSidebarToTasks();
         echo $output . '
         <div class="edit-container content">
-            <form action="" method="post">
+            <form action="editTask" method="post">
                 <h2>Редактирование задачи</h2>
                 <label for="task_name">Название:</label>
                 <input type="text" name="task_name" id="task_name" required value="' . $task['task_name'] . '">
@@ -145,12 +145,12 @@ class TasksView {
                 <select name="task_status" id="task_status">';
                     foreach ($statuses as $statusId => $statusName) {
                         $selected = ($statusId == $task['task_status']) ? 'selected' : '';
-                        echo '<option value="' . $statusId . '" ' . $selected . '>' . $statusName . '</option>';
+                        echo '<option value="' . $statusName . '" ' . $selected . '>' . $statusName . '</option>';
                     }
             echo '</select>
     
                 <label for="deadline">Крайний срок:</label>
-                <input type="date" name="deadline" id="deadline" value="' . $task['deadline'] . '">
+                <input type="date" name="deadline" id="deadline" value="' . date("Y-m-d", strtotime($task['deadline'])) . '">
     
                 <label for="task_owner">Владелец:</label>
                 <select name="task_owner" id="task_owner">';
@@ -168,8 +168,8 @@ class TasksView {
                     }
             echo '</select>
                 <br>
-                <input type="hidden" name="class_id" value="' . $task['task_id'] . '">
-                <input type="submit" name="add" value="Добавить">
+                <input type="hidden" name="task_id" value="' . $task['task_id'] . '">
+                <input type="submit" value="Добавить">
             </form>
         </div>';
     }    

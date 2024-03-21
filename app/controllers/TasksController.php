@@ -6,11 +6,11 @@ class TasksController {
     private $model;
     private $view;
     private $statuses = [
-        1 => 'Pending',         // Ожидание
-        2 => 'In Progress',     // В процессе
-        3 => 'Completed',       // Завершено
-        4 => 'On Hold',         // В ожидании
-        5 => 'Cancelled',       // Отменено
+        'Pending',         // Ожидание
+        'In Progress',     // В процессе
+        'Completed',       // Завершено
+        'On Hold',         // В ожидании
+        'Cancelled',       // Отменено
     ];
 
     public function __construct($conn) {
@@ -45,7 +45,7 @@ class TasksController {
             case 'editTask':
                 $pageTitle = "Редактирование занятия";
                 include 'resources/includes/header.php';
-                $this->displayTaskEditForm  ($id);
+                $this->displayTaskEditForm($id);
                 break; 
         }
 
@@ -97,6 +97,21 @@ class TasksController {
     
     public function deleteTask($task_id) {
         $this->model->deleteTask($task_id);
+        header("Location: /editTasks"); 
+        exit();
+    }
+
+    public function EditTask() {
+        $task_id = $_POST['task_id'];
+        $task_name = $_POST['task_name'];
+        $task_text = $_POST['task_text'];
+        $task_status = $_POST['task_status'];
+        $deadline = $_POST['deadline'];
+        $task_owner = $_POST['task_owner'];
+        $task_assignee = $_POST['task_assignee'];
+
+        $this->model->UpdateTask($task_id, $task_name, $task_text, $task_status, $deadline, $task_owner, $task_assignee);
+        
         header("Location: /editTasks"); 
         exit();
     }
