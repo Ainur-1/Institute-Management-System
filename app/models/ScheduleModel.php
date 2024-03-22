@@ -16,7 +16,8 @@ class ScheduleModel extends BaseModel {
             Users.last_name,
             Schedule.day_of_week,
             ClassTimes.start_time,
-            ClassTimes.end_time
+            ClassTimes.end_time,
+            Schedule.is_deleted
         FROM 
             Schedule
         LEFT JOIN 
@@ -87,28 +88,7 @@ class ScheduleModel extends BaseModel {
     }
 
     public function deleteClass($schedule_id) {
-        // Проверка соединения с базой данных
-        if (!$this->conn) {
-            die("Ошибка соединения с базой данных.");
-        }
-    
-        // Проверка наличия записи с указанным schedule_id
-        $checkSql = "SELECT COUNT(*) FROM `Schedule` WHERE `schedule_id` = ?";
-        $checkStmt = $this->conn->prepare($checkSql);
-        $checkStmt->bind_param("i", $schedule_id);
-        $checkStmt->execute();
-        $count = 0;
-        $checkStmt->bind_result($count);
-        $checkStmt->fetch();
-        $checkStmt->close();
-    
-        if ($count == 0) {
-            echo "Запись с ID {$schedule_id} не найдена.";
-            return;
-        }
-    
-        // Удаление записи
-        $sql = "DELETE FROM `Schedule` WHERE `schedule_id` = ?";
+        $sql = "UPDATE `Schedule` SET `is_deleted` = true WHERE `schedule_id` = ?";
         $stmt = $this->conn->prepare($sql);
     
         if (!$stmt) {
@@ -118,7 +98,7 @@ class ScheduleModel extends BaseModel {
         $stmt->bind_param("i", $schedule_id);
     
         if ($stmt->execute()) {
-            echo "Запись успешно удалена.";
+            echo "Запись успешно помечена как удаленная.";
         } else {
             echo "Ошибка выполнения запроса: " . $stmt->error;
         }

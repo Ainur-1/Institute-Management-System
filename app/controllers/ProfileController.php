@@ -15,7 +15,6 @@ class ProfileController {
 
         $this->checkLoggedIn();
         $this->userData = $this->model->getUserInfo($_SESSION['username']);
-        $this->setUserDataInSession();
     }
 
     private function checkLoggedIn() {
@@ -23,13 +22,6 @@ class ProfileController {
             header("Location: /");
             exit;
         }
-    }
-    
-    private function setUserDataInSession() {
-        $_SESSION['first_name'] = $this->userData['first_name']; 
-        $_SESSION['last_name'] = $this->userData['last_name'];
-        $_SESSION['user_id'] = $this->userData['user_id'];
-        $_SESSION['user_role'] = $this->userData['role_id'];
     }
     
     public function displayProfile() {   

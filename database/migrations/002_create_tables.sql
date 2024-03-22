@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS Schedule (
 	teacher_id INTEGER,
 	day_of_week INTEGER,
 	class_time_id  INTEGER,
+	is_deleted BOOLEAN DEFAULT false,
 	FOREIGN KEY (subject_id) REFERENCES Subjects(subject_id),
 	FOREIGN KEY (group_id) REFERENCES StudentGroups(group_id),
 	FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id),

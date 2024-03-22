@@ -18,13 +18,15 @@ class ScheduleView {
                 </thead>
                 <tbody>';  
                     foreach ($schedule as $row) {
-                        echo "<tr>";
-                        echo "<td>" . $row['subject_name'] . "</td>";
-                        echo "<td>" . $row['group_name'] . "</td>";
-                        echo "<td>" . $row['first_name'] . ' ' . $row['last_name'] . "</td>";
-                        echo "<td>" . $row['day_of_week'] = $dayOfWeekNames[$row['day_of_week']] ?? 'Недопустимый день' . "</td>";
-                        echo "<td>" . $row['start_time'] .  " - " . $row['end_time'] . "</td>";
-                        echo "</tr>";
+                        if ($row['is_deleted'] === 0) { 
+                            echo "<tr>";
+                            echo "<td>" . $row['subject_name'] . "</td>";
+                            echo "<td>" . $row['group_name'] . "</td>";
+                            echo "<td>" . $row['first_name'] . ' ' . $row['last_name'] . "</td>";
+                            echo "<td>" . $row['day_of_week'] = $dayOfWeekNames[$row['day_of_week']] ?? 'Недопустимый день' . "</td>";
+                            echo "<td>" . $row['start_time'] .  " - " . $row['end_time'] . "</td>";
+                            echo "</tr>";
+                        }
                     }; 
                 echo ' </tbody>
             </table>
@@ -49,15 +51,17 @@ class ScheduleView {
                 </thead>
                 <tbody>';  
                     foreach ($schedule as $row) {
-                        echo "<tr>";
-                        echo "<td>" . $row['subject_name'] . "</td>";
-                        echo "<td>" . $row['group_name'] . "</td>";
-                        echo "<td>" . $row['first_name'] . ' ' . $row['last_name'] . "</td>";
-                        echo "<td>" . $row['day_of_week'] = $dayOfWeekNames[$row['day_of_week']] ?? 'Недопустимый день' . "</td>";
-                        echo "<td>" . $row['start_time'] .  " - " . $row['end_time'] . "</td>";
-                        echo "<td><a href='/?action=editClass&id=". $row['schedule_id'] . "'>Изменить</a></td>";
-                        echo "<td><a href='/?action=deleteClass&id=". $row['schedule_id'] . "'>Удалить</a></td>";
-                        echo "</tr>";
+                        if ($row['is_deleted'] === 0) { 
+                            echo "<tr>";
+                            echo "<td>" . $row['subject_name'] . "</td>";
+                            echo "<td>" . $row['group_name'] . "</td>";
+                            echo "<td>" . $row['first_name'] . ' ' . $row['last_name'] . "</td>";
+                            echo "<td>" . $row['day_of_week'] = $dayOfWeekNames[$row['day_of_week']] ?? 'Недопустимый день' . "</td>";
+                            echo "<td>" . $row['start_time'] .  " - " . $row['end_time'] . "</td>";
+                            echo "<td><a href='/?action=editClass&id=". $row['schedule_id'] . "'>Изменить</a></td>";
+                            echo "<td><a href='/?action=deleteClass&id=". $row['schedule_id'] . "'>Удалить</a></td>";
+                            echo "</tr>";
+                        }
                     };
                     echo ' 
                 </tbody>

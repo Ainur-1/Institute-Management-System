@@ -6,9 +6,12 @@ class AuthenticateController
 {
     private $model;
     private $view;
+    private $userData;
+    private $conn;
 
     public function __construct($conn)
     {
+        $this->conn = $conn;
         $this->model = new AuthenticateModel($conn);
         $this->view = new AuthenticateView();
     }
@@ -31,8 +34,9 @@ class AuthenticateController
             $result = $this->model->authenticateUser($username, $password);
 
             if ($result === true) {
-                $_SESSION['logged_in'] = true;
-                $_SESSION['username'] = $username;
+                $this->userData = (new Users($this->conn))->getUserByEmail($username);
+
+                $this->setUserDataInSession($username);
                 
                 header("Location: /profile");
                 exit;
@@ -43,5 +47,14 @@ class AuthenticateController
             echo $this->view->renderAuthForm();
         }
     }
+
+    private function setUserDataInSession($username) {
+        $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = $username;
+
+        $_SESSION['first_name'] = $this->userData['first_name']; 
+        $_SESSION['last_name'] = $this->userData['last_name'];
+        $_SESSION['user_id'] = $this->userData['user_id'];
+        $_SESSION['user_role'] = $this->userData['role_id'];
+    }
 }
-?>
